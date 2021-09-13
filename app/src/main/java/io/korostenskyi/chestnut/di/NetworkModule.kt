@@ -26,7 +26,7 @@ interface NetworkModule {
 
     @Binds
     @Singleton
-    fun bindTmdbNetworkDataSource(impl: MovieNetworkDataSourceImpl): MovieNetworkDataSource
+    fun bindMovieNetworkDataSource(impl: MovieNetworkDataSourceImpl): MovieNetworkDataSource
 
     companion object {
 
@@ -55,8 +55,10 @@ interface NetworkModule {
 
         @Provides
         @Singleton
-        fun provideJsonConfig() = Json {
-            ignoreUnknownKeys = true
+        fun provideJsonConfig(): Json {
+            return Json {
+                ignoreUnknownKeys = true
+            }
         }
 
         @Provides

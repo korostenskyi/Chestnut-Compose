@@ -30,7 +30,7 @@ fun HomeScreen(viewModel: HomeViewModel = hiltViewModel()) {
     }
     Column(Modifier.padding(all = 2.dp)) {
         Button(onClick = { viewModel.add(1) }) {
-            Text(text = "Click me")
+            Message(text = "Click me")
         }
         Message(text = state.total.toString())
     }
