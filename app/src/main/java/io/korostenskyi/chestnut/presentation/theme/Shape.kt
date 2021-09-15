@@ -1,4 +1,4 @@
-package io.korostenskyi.chestnut.ui.theme
+package io.korostenskyi.chestnut.presentation.theme
 
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Shapes

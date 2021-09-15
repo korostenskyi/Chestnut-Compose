@@ -39,3 +39,7 @@ captures/
 
 # OS files
 .DS_Store
+
+# Configuration
+config/dev.properties
+config/release.properties
