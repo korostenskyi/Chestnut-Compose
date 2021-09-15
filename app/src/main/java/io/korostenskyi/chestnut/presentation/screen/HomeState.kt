@@ -1,5 +1,7 @@
 package io.korostenskyi.chestnut.presentation.screen
 
+import io.korostenskyi.chestnut.domain.model.Movie
+
 data class HomeState(
-    val total: Int = 0
+    val movies: List<Movie> = emptyList()
 )

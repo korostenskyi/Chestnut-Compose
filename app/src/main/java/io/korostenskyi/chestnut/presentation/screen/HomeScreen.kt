@@ -2,17 +2,14 @@ package io.korostenskyi.chestnut.presentation.screen
 
 import android.content.Context
 import android.widget.Toast
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material.Button
-import androidx.compose.material.Text
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import io.korostenskyi.chestnut.presentation.view.MovieCard
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
@@ -22,23 +19,17 @@ fun HomeScreen(viewModel: HomeViewModel = hiltViewModel()) {
     val context = LocalContext.current
     LaunchedEffect(viewModel) {
         launch {
-            viewModel.add(123)
             viewModel.container.sideEffectFlow.collect {
                 handleSideEffect(context, it)
             }
         }
     }
-    Column(Modifier.padding(all = 2.dp)) {
-        Button(onClick = { viewModel.add(1) }) {
-            Message(text = "Click me")
+    viewModel.loadPopularMovies()
+    LazyColumn {
+        items(state.movies) { movie ->
+            MovieCard(movie)
         }
-        Message(text = state.total.toString())
     }
-}
-
-@Composable
-fun Message(text: String) {
-    Text(text = text)
 }
 
 fun handleSideEffect(context: Context, sideEffect: HomeSideEffect) {
