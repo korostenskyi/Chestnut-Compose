@@ -27,9 +27,7 @@ fun HomeScreen(viewModel: HomeViewModel = hiltViewModel()) {
                 handleSideEffect(context, it)
             }
         }
-        launch {
-            viewModel.loadPopularMovies()
-        }
+        viewModel.loadPopularMovies()
     }
     val listState = rememberLazyListState()
     val movies = viewModel.moviesStateFlow.collectAsState().value
