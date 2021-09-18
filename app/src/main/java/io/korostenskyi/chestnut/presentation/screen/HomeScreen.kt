@@ -2,32 +2,45 @@ package io.korostenskyi.chestnut.presentation.screen
 
 import android.content.Context
 import android.widget.Toast
-import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.lazy.GridCells
+import androidx.compose.foundation.lazy.LazyVerticalGrid
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import io.korostenskyi.chestnut.presentation.view.MovieCard
+import io.korostenskyi.chestnut.presentation.composables.MovieCard
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun HomeScreen(viewModel: HomeViewModel = hiltViewModel()) {
-    val state = viewModel.container.stateFlow.collectAsState().value
     val context = LocalContext.current
     LaunchedEffect(viewModel) {
         launch {
-            viewModel.container.sideEffectFlow.collect {
+            viewModel.sideEffectFlow.collect {
                 handleSideEffect(context, it)
             }
         }
+        launch {
+            viewModel.loadPopularMovies()
+        }
     }
-    viewModel.loadPopularMovies()
-    LazyColumn {
-        items(state.movies) { movie ->
-            MovieCard(movie)
+    val listState = rememberLazyListState()
+    val movies = viewModel.moviesStateFlow.collectAsState().value
+    LazyVerticalGrid(
+        cells = GridCells.Adaptive(minSize = 128.dp),
+        state = listState
+    ) {
+        items(movies) { movie ->
+            MovieCard(movie, onClick = { movie ->
+                println(movie)
+            })
         }
     }
 }

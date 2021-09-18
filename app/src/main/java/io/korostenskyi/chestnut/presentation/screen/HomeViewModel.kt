@@ -1,27 +1,34 @@
 package io.korostenskyi.chestnut.presentation.screen
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.korostenskyi.chestnut.domain.interactor.MovieInteractor
-import org.orbitmvi.orbit.ContainerHost
-import org.orbitmvi.orbit.syntax.simple.intent
-import org.orbitmvi.orbit.syntax.simple.postSideEffect
-import org.orbitmvi.orbit.syntax.simple.reduce
-import org.orbitmvi.orbit.viewmodel.container
+import io.korostenskyi.chestnut.domain.model.Movie
+import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val movieInteractor: MovieInteractor
-) : ContainerHost<HomeState, HomeSideEffect>, ViewModel() {
+) : ViewModel() {
 
-    override val container = container<HomeState, HomeSideEffect>(HomeState())
+    private val _sideEffectFlow = MutableSharedFlow<HomeSideEffect>()
+    val sideEffectFlow = _sideEffectFlow.asSharedFlow()
 
-    fun loadPopularMovies(page: Int = 1) = intent {
-        val movies = movieInteractor.retrievePopularMovies(page)
-        postSideEffect(HomeSideEffect.Toast("Loaded ${movies.count()} movies!"))
-        reduce {
-            state.copy(movies = movies)
+    private val _moviesStateFlow = MutableStateFlow<List<Movie>>(emptyList())
+    val moviesStateFlow = _moviesStateFlow.asStateFlow()
+
+    fun loadPopularMovies(page: Int = 1) {
+        viewModelScope.launch {
+            val newData = movieInteractor.retrievePopularMovies(page)
+            val movies = moviesStateFlow.value + newData
+            _moviesStateFlow.emit(movies)
+            _sideEffectFlow.emit(HomeSideEffect.Toast("Loaded ${movies.count()} movies!"))
         }
     }
 }
