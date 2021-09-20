@@ -21,14 +21,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             ChestnutApp {
-                Column {
-                    TopAppBar(
-                        title = {
-                            Text(stringResource(R.string.app_name))
-                        }
-                    )
-                    HomeScreen()
-                }
+                HomeScreen()
             }
         }
     }
