@@ -1,27 +1,27 @@
 package io.korostenskyi.chestnut.presentation.screen
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.korostenskyi.chestnut.domain.interactor.MovieInteractor
-import org.orbitmvi.orbit.ContainerHost
-import org.orbitmvi.orbit.syntax.simple.intent
-import org.orbitmvi.orbit.syntax.simple.postSideEffect
-import org.orbitmvi.orbit.syntax.simple.reduce
-import org.orbitmvi.orbit.viewmodel.container
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val movieInteractor: MovieInteractor
-) : ContainerHost<HomeState, HomeSideEffect>, ViewModel() {
+) : ViewModel() {
 
-    override val container = container<HomeState, HomeSideEffect>(HomeState())
+    private val _sideEffectFlow = MutableSharedFlow<HomeSideEffect>()
+    val sideEffectFlow = _sideEffectFlow.asSharedFlow()
 
-    fun loadPopularMovies(page: Int = 1) = intent {
-        val movies = movieInteractor.retrievePopularMovies(page)
-        postSideEffect(HomeSideEffect.Toast("Loaded ${movies.count()} movies!"))
-        reduce {
-            state.copy(movies = movies)
-        }
-    }
+    val moviesStateFlow = Pager(PagingConfig(pageSize = 20)) {
+        MoviePagingSource(movieInteractor)
+    }.flow.stateIn(viewModelScope, SharingStarted.Lazily, PagingData.empty())
 }
