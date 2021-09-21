@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Chestnut</string>
+
+    <!-- Screen titles -->
+    <string name="title_popular">Popular Movies</string>
+    <string name="title_details">Movie Details</string>
 </resources>

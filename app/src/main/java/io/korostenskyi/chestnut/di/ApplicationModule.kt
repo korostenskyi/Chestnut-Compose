@@ -6,6 +6,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import io.korostenskyi.chestnut.BuildConfig
 import io.korostenskyi.chestnut.domain.model.BuildParams
+import io.korostenskyi.chestnut.presentation.navigation.NavigationFlow
 import javax.inject.Singleton
 
 @Module
@@ -24,4 +25,8 @@ object ApplicationModule {
             isDebug = isDebug
         )
     }
+
+    @Provides
+    @Singleton
+    fun provideNavigationFlow(): NavigationFlow = NavigationFlow()
 }

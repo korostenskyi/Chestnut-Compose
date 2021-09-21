@@ -1,10 +1,9 @@
-package io.korostenskyi.chestnut.presentation.screen
+package io.korostenskyi.chestnut.presentation.screen.home
 
 import android.content.Context
 import android.widget.Toast
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.lazy.*
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
@@ -37,7 +36,7 @@ fun HomeScreen(viewModel: HomeViewModel = hiltViewModel()) {
     Column {
         TopAppBar(
             title = {
-                Text(stringResource(R.string.app_name))
+                Text(stringResource(R.string.title_popular))
             }
         )
         LazyVerticalGrid(
@@ -46,7 +45,7 @@ fun HomeScreen(viewModel: HomeViewModel = hiltViewModel()) {
         ) {
             items(movies) { movie ->
                 MovieCard(movie!!, onClick = { movie ->
-                    println(movie)
+                    viewModel.openDetailsScreen(movie.id)
                 })
             }
         }

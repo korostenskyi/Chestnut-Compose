@@ -1,4 +1,4 @@
-package io.korostenskyi.chestnut.presentation.screen
+package io.korostenskyi.chestnut.presentation.screen.home
 
 sealed class HomeSideEffect {
 
