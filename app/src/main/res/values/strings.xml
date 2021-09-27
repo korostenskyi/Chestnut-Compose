@@ -7,4 +7,10 @@
 
     <!-- Screen states -->
     <string name="state_loading">Loading</string>
+
+    <!-- Details Screen -->
+    <string name="details_description">Description</string>
+
+    <!-- General -->
+    <string name="label_see_more">Read more…</string>
 </resources>
