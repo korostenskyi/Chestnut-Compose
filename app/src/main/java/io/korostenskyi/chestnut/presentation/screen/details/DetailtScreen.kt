@@ -11,19 +11,23 @@ import io.korostenskyi.chestnut.R
 
 @Composable
 fun DetailsScreen(viewModel: DetailsViewModel) {
-    val movieInfo = viewModel.movieDetailsFlow.collectAsState().value
+    val state = viewModel.detailsStateFlow.collectAsState().value
     Column {
         TopAppBar(
             title = {
                 Text(stringResource(R.string.title_details))
             }
         )
-        if (movieInfo != null) {
-            Text(text = movieInfo.title)
-        } else {
-            Column {
-                CircularProgressIndicator()
-                Text(text = stringResource(R.string.state_loading))
+        when (state) {
+            is DetailsState.Idle -> {}
+            is DetailsState.Loading -> {
+                Column {
+                    CircularProgressIndicator()
+                    Text(text = stringResource(R.string.state_loading))
+                }
+            }
+            is DetailsState.Success -> {
+                Text(text = state.movieInfo.title)
             }
         }
     }

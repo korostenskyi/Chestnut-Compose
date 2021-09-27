@@ -7,9 +7,7 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import io.korostenskyi.chestnut.domain.interactor.MovieInteractor
-import io.korostenskyi.chestnut.domain.model.MovieInfo
 import io.korostenskyi.chestnut.presentation.navigation.NavigationNames
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -19,14 +17,14 @@ class DetailsViewModel @AssistedInject constructor(
     @Assisted(NavigationNames.MovieIdArgument) private val movieId: Int
 ) : ViewModel() {
 
-    private val _movieDetailsFlow = MutableStateFlow<MovieInfo?>(null)
-    val movieDetailsFlow = _movieDetailsFlow.asStateFlow()
+    private val _detailsStateFlow = MutableStateFlow<DetailsState>(DetailsState.Idle)
+    val detailsStateFlow = _detailsStateFlow.asStateFlow()
 
     init {
         viewModelScope.launch {
+            _detailsStateFlow.emit(DetailsState.Loading)
             val movieInfo = movieInteractor.retrieveMovieInfo(movieId)
-            delay(500)
-            _movieDetailsFlow.emit(movieInfo)
+            _detailsStateFlow.emit(DetailsState.Success(movieInfo))
         }
     }
 
