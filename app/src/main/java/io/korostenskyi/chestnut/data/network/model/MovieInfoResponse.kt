@@ -4,7 +4,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class MovieResponse(
+data class MovieInfoResponse(
     @SerialName("id") val id: Int,
     @SerialName("title") val title: String,
     @SerialName("overview") val description: String,
@@ -12,5 +12,6 @@ data class MovieResponse(
     @SerialName("backdrop_path") val backdropPath: String? = null,
     @SerialName("adult") val isAdult: Boolean,
     @SerialName("vote_average") val voteAverage: Double,
-    @SerialName("vote_count") val voteCount: Int
+    @SerialName("vote_count") val voteCount: Int,
+    @SerialName("release_date") val releaseDate: String
 )

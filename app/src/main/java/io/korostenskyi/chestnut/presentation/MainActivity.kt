@@ -48,11 +48,11 @@ class MainActivity : ComponentActivity() {
                         route = "${NavigationNames.Details}/{${NavigationNames.MovieIdArgument}}",
                         arguments = listOf(
                             navArgument(NavigationNames.MovieIdArgument) {
-                                type = NavType.LongType
+                                type = NavType.IntType
                             }
                         )
                     ) { backStackEntry ->
-                        val movieId = backStackEntry.arguments?.getLong(NavigationNames.MovieIdArgument, 0)!!
+                        val movieId = backStackEntry.arguments?.getInt(NavigationNames.MovieIdArgument)!!
                         val viewModel = viewModel<DetailsViewModel>(
                             factory = DetailsViewModel.provideFactory(detailsFactory, movieId)
                         )

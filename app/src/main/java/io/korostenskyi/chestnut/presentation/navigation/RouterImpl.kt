@@ -14,7 +14,7 @@ class RouterImpl(
         navigator(this)
     }
 
-    override fun fromPopularToDetails(movieId: Long) {
+    override fun fromPopularToDetails(movieId: Int) {
         navController.navigate("${NavigationNames.Details}/$movieId")
     }
 }

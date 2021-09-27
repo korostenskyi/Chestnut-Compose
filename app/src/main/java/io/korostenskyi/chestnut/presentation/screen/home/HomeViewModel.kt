@@ -24,7 +24,7 @@ class HomeViewModel @Inject constructor(
         MoviePagingSource(movieInteractor)
     }.flow.stateIn(viewModelScope, SharingStarted.Lazily, PagingData.empty()).cachedIn(viewModelScope)
 
-    fun openDetailsScreen(movieId: Long) {
+    fun openDetailsScreen(movieId: Int) {
         viewModelScope.launch {
             navigationFlow.navigate {
                 fromPopularToDetails(movieId)

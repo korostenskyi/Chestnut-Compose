@@ -6,5 +6,5 @@ interface Router {
 
     fun navigate(navigator: (Router) -> Unit)
 
-    fun fromPopularToDetails(movieId: Long)
+    fun fromPopularToDetails(movieId: Int)
 }
