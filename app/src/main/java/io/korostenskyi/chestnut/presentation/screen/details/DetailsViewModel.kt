@@ -26,6 +26,8 @@ class DetailsViewModel @AssistedInject constructor(
     private val _detailsStateFlow = MutableStateFlow<DetailsState>(DetailsState.Idle)
     val detailsStateFlow = _detailsStateFlow.asStateFlow()
 
+    val isInFavoritesFlow = MutableStateFlow(false)
+
     init {
         viewModelScope.launch {
             _detailsStateFlow.emit(DetailsState.Loading)
@@ -41,6 +43,13 @@ class DetailsViewModel @AssistedInject constructor(
     fun back() {
         viewModelScope.launch {
             navigationFlow.navigate(Router::back)
+        }
+    }
+
+    fun toggleFavorites(movieInfo: MovieInfo) {
+        viewModelScope.launch {
+            // TODO: rewrite this depending on Room values
+            isInFavoritesFlow.emit(!isInFavoritesFlow.value)
         }
     }
 

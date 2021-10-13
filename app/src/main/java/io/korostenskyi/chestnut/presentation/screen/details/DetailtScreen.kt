@@ -7,6 +7,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -24,7 +26,11 @@ fun DetailsScreen(viewModel: DetailsViewModel) {
     Column {
         TopAppBar(
             title = {
-                Text(stringResource(R.string.title_details))
+                if (state is DetailsState.Success) {
+                    Text(state.movieInfo.title)
+                } else {
+                    Text(stringResource(R.string.title_details))
+                }
             },
             actions = {
                 if (state is DetailsState.Success) {
@@ -48,7 +54,7 @@ fun DetailsScreen(viewModel: DetailsViewModel) {
         when (state) {
             is DetailsState.Idle -> {}
             is DetailsState.Loading -> LoadingView()
-            is DetailsState.Success -> DetailsView(state.movieInfo)
+            is DetailsState.Success -> DetailsView(state.movieInfo, viewModel)
         }
     }
 }
@@ -66,7 +72,11 @@ fun LoadingView() {
 }
 
 @Composable
-fun DetailsView(movie: MovieInfo) {
+fun DetailsView(
+    movie: MovieInfo,
+    viewModel: DetailsViewModel
+) {
+    val isInFavorites = viewModel.isInFavoritesFlow.collectAsState().value
     if (movie.backdropPath != null) {
         Image(
             painter = rememberImagePainter(
@@ -92,21 +102,52 @@ fun DetailsView(movie: MovieInfo) {
             modifier = Modifier
                 .padding(vertical = 8.dp)
         ) {
-            Text(
-                text = movie.title,
-                style = MaterialTheme.typography.h4,
-                modifier = Modifier
-                    .fillMaxWidth()
-            )
+            Row {
+                Text(
+                    text = movie.title,
+                    style = MaterialTheme.typography.h4,
+                    modifier = Modifier
+                        .weight(12f)
+                )
+                IconButton(
+                    onClick = { viewModel.toggleFavorites(movie) },
+                    modifier = Modifier
+                        .weight(1f)
+                ) {
+                    if (isInFavorites) {
+                        Image(
+                            painter = painterResource(id = R.drawable.ic_favorite_filled),
+                            contentDescription = null,
+                            colorFilter = ColorFilter.tint(
+                                color = Color.Black
+                            )
+                        )
+                    } else {
+                        Image(
+                            painter = painterResource(id = R.drawable.ic_favorite_outlined),
+                            contentDescription = null,
+                            colorFilter = ColorFilter.tint(
+                                color = Color.Black
+                            )
+                        )
+                    }
+                }
+            }
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
             ) {
-                Row(modifier = Modifier.weight(1f)) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier.weight(1f)
+                ) {
                     Icon(painter = painterResource(id = R.drawable.ic_time), contentDescription = null)
                     Text(text = movie.releaseDate)
                 }
-                Row(modifier = Modifier.weight(1f)) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier.weight(1f)
+                ) {
                     Icon(painter = painterResource(id = R.drawable.ic_star), contentDescription = null)
                     Text(text = movie.voteAverage.toString())
                 }
