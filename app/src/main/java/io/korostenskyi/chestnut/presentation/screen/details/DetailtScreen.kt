@@ -19,6 +19,7 @@ import coil.size.Scale
 import io.korostenskyi.chestnut.R
 import io.korostenskyi.chestnut.domain.model.MovieInfo
 import io.korostenskyi.chestnut.presentation.composables.ExpandableText
+import io.korostenskyi.chestnut.presentation.composables.LoadingView
 
 @Composable
 fun DetailsScreen(viewModel: DetailsViewModel) {
@@ -53,21 +54,9 @@ fun DetailsScreen(viewModel: DetailsViewModel) {
         )
         when (state) {
             is DetailsState.Idle -> {}
-            is DetailsState.Loading -> LoadingView()
+            is DetailsState.Loading -> LoadingView(modifier = Modifier.fillMaxSize())
             is DetailsState.Success -> DetailsView(state.movieInfo, viewModel)
         }
-    }
-}
-
-@Composable
-fun LoadingView() {
-    Column(
-        modifier = Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        CircularProgressIndicator()
-        Text(stringResource(R.string.state_loading))
     }
 }
 

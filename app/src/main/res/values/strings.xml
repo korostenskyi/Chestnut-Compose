@@ -7,6 +7,7 @@
 
     <!-- Screen states -->
     <string name="state_loading">Loading</string>
+    <string name="state_error">Error</string>
 
     <!-- Details Screen -->
     <string name="details_description">Description</string>
