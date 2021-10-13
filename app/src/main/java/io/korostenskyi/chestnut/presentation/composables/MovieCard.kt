@@ -42,6 +42,7 @@ fun MovieCard(movie: Movie, onClick: (Movie) -> Unit, modifier: Modifier = Modif
         Surface(
             color = Color(0xCC000000),
             modifier = Modifier
+                .height(50.dp)
                 .fillMaxWidth()
                 .align(Alignment.BottomCenter)
         ) {

@@ -65,7 +65,7 @@ fun DetailsView(
     movie: MovieInfo,
     viewModel: DetailsViewModel
 ) {
-    val isInFavorites = viewModel.isInFavoritesFlow.collectAsState().value
+    val isInFavorites = viewModel.favoritesFlow.collectAsState().value
     if (movie.backdropPath != null) {
         Image(
             painter = rememberImagePainter(
@@ -99,7 +99,7 @@ fun DetailsView(
                         .weight(12f)
                 )
                 IconButton(
-                    onClick = { viewModel.toggleFavorites(movie) },
+                    onClick = { viewModel.toggleFavorites() },
                     modifier = Modifier
                         .weight(1f)
                 ) {
