@@ -8,7 +8,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -21,7 +20,6 @@ import io.korostenskyi.chestnut.presentation.composables.ExpandableText
 
 @Composable
 fun DetailsScreen(viewModel: DetailsViewModel) {
-    val context = LocalContext.current
     val state = viewModel.detailsStateFlow.collectAsState().value
     Column {
         TopAppBar(
@@ -30,7 +28,7 @@ fun DetailsScreen(viewModel: DetailsViewModel) {
             },
             actions = {
                 if (state is DetailsState.Success) {
-                    IconButton(onClick = { viewModel.shareTitle(context, state.movieInfo) }) {
+                    IconButton(onClick = { viewModel.share(state.movieInfo) }) {
                         Image(
                             painter = painterResource(id = R.drawable.ic_share),
                             contentDescription = null

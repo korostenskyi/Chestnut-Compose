@@ -1,6 +1,5 @@
 package io.korostenskyi.chestnut.presentation.screen.details
 
-import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
@@ -12,7 +11,7 @@ import io.korostenskyi.chestnut.domain.model.MovieInfo
 import io.korostenskyi.chestnut.presentation.navigation.NavigationFlow
 import io.korostenskyi.chestnut.presentation.navigation.NavigationNames
 import io.korostenskyi.chestnut.presentation.navigation.Router
-import io.korostenskyi.chestnut.presentation.utils.share
+import io.korostenskyi.chestnut.presentation.utils.IntentUtils
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -20,6 +19,7 @@ import kotlinx.coroutines.launch
 class DetailsViewModel @AssistedInject constructor(
     private val movieInteractor: MovieInteractor,
     private val navigationFlow: NavigationFlow,
+    private val intentUtils: IntentUtils,
     @Assisted(NavigationNames.MovieIdArgument) private val movieId: Int
 ) : ViewModel() {
 
@@ -34,8 +34,8 @@ class DetailsViewModel @AssistedInject constructor(
         }
     }
 
-    fun shareTitle(context: Context, movie: MovieInfo) {
-        share(context, movie.title)
+    fun share(movie: MovieInfo) {
+        intentUtils.share(movie.title)
     }
 
     fun back() {
