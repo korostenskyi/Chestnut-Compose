@@ -1,4 +1,4 @@
-package io.korostenskyi.chestnut.presentation.screen
+package io.korostenskyi.chestnut.presentation.screen.home
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState

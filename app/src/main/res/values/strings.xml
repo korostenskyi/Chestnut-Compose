@@ -1,3 +1,17 @@
 <resources>
     <string name="app_name">Chestnut</string>
+
+    <!-- Screen titles -->
+    <string name="title_popular">Popular Movies</string>
+    <string name="title_details">Movie Details</string>
+
+    <!-- Screen states -->
+    <string name="state_loading">Loading</string>
+    <string name="state_error">Error</string>
+
+    <!-- Details Screen -->
+    <string name="details_description">Description</string>
+
+    <!-- General -->
+    <string name="label_see_more">Read more…</string>
 </resources>
