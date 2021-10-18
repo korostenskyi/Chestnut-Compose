@@ -38,7 +38,7 @@ fun DetailsScreen(viewModel: DetailsViewModel) {
                     IconButton(onClick = { viewModel.share(state.movieInfo) }) {
                         Image(
                             painter = painterResource(id = R.drawable.ic_share),
-                            contentDescription = null
+                            contentDescription = stringResource(id = R.string.action_share)
                         )
                     }
                 }
@@ -47,7 +47,7 @@ fun DetailsScreen(viewModel: DetailsViewModel) {
                 IconButton(onClick = { viewModel.back() }) {
                     Image(
                         painter = painterResource(id = R.drawable.ic_arrow_back),
-                        contentDescription = null
+                        contentDescription = stringResource(id = R.string.action_back)
                     )
                 }
             }
@@ -106,7 +106,7 @@ fun DetailsView(
                     if (isInFavorites) {
                         Image(
                             painter = painterResource(id = R.drawable.ic_favorite_filled),
-                            contentDescription = null,
+                            contentDescription = stringResource(id = R.string.action_remove_from_favorites),
                             colorFilter = ColorFilter.tint(
                                 color = Color.Black
                             )
@@ -114,7 +114,7 @@ fun DetailsView(
                     } else {
                         Image(
                             painter = painterResource(id = R.drawable.ic_favorite_outlined),
-                            contentDescription = null,
+                            contentDescription = stringResource(id = R.string.action_remove_from_favorites),
                             colorFilter = ColorFilter.tint(
                                 color = Color.Black
                             )
@@ -130,14 +130,20 @@ fun DetailsView(
                     verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier.weight(1f)
                 ) {
-                    Icon(painter = painterResource(id = R.drawable.ic_time), contentDescription = null)
+                    Icon(
+                        painter = painterResource(id = R.drawable.ic_time),
+                        contentDescription = stringResource(id = R.string.details_release_date)
+                    )
                     Text(text = movie.releaseDate)
                 }
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier.weight(1f)
                 ) {
-                    Icon(painter = painterResource(id = R.drawable.ic_star), contentDescription = null)
+                    Icon(
+                        painter = painterResource(id = R.drawable.ic_star),
+                        contentDescription = stringResource(id = R.string.details_average_rating)
+                    )
                     Text(text = movie.voteAverage.toString())
                 }
             }

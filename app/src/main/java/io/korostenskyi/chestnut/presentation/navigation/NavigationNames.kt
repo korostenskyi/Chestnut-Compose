@@ -6,4 +6,5 @@ object NavigationNames {
 
     const val Home = "home"
     const val Details = "details"
+    const val Settings = "settings"
 }

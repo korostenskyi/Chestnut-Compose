@@ -4,6 +4,7 @@
     <!-- Screen titles -->
     <string name="title_popular">Popular Movies</string>
     <string name="title_details">Movie Details</string>
+    <string name="title_settings">Settings</string>
 
     <!-- Screen states -->
     <string name="state_loading">Loading</string>
@@ -11,7 +12,23 @@
 
     <!-- Details Screen -->
     <string name="details_description">Description</string>
+    <string name="details_release_date">Release Date</string>
+    <string name="details_average_rating">Average Rating</string>
+
+    <!-- Settings Screen -->
+    <string name="settings_theme">Theme</string>
+    <string name="settings_select_theme">Select Theme</string>
+    <string name="settings_theme_system">System Default</string>
+    <string name="settings_theme_light">Light</string>
+    <string name="settings_theme_dark">Dark</string>
+    <string name="settings_theme_green">Green</string>
 
     <!-- General -->
     <string name="label_see_more">Read more…</string>
+
+    <!-- Actions -->
+    <string name="action_back">Back</string>
+    <string name="action_share">Share</string>
+    <string name="action_add_to_favorites">Add to favorites</string>
+    <string name="action_remove_from_favorites">Remove from favorites</string>
 </resources>
