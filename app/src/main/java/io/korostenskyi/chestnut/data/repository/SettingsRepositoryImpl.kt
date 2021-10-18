@@ -31,6 +31,12 @@ class SettingsRepositoryImpl @Inject constructor(context: Context) : SettingsRep
         }
     }
 
+    override suspend fun reset() {
+        dataStore.edit { preferences ->
+            preferences[THEME_KEY] = ApplicationSettings.Theme.SYSTEM.name
+        }
+    }
+
     companion object {
         val THEME_KEY = stringPreferencesKey("theme")
     }

@@ -15,4 +15,8 @@ class SettingsInteractorImpl @Inject constructor(
     override suspend fun selectTheme(theme: ApplicationSettings.Theme) {
         repository.selectTheme(theme)
     }
+
+    override suspend fun reset() {
+        repository.reset()
+    }
 }

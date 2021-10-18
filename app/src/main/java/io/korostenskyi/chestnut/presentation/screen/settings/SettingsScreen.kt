@@ -1,7 +1,6 @@
 package io.korostenskyi.chestnut.presentation.screen.settings
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.*
@@ -13,11 +12,13 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import io.korostenskyi.chestnut.R
 import io.korostenskyi.chestnut.domain.model.ApplicationSettings
+import io.korostenskyi.chestnut.presentation.composables.SettingsButton
 
 @Composable
 fun SettingsScreen(viewModel: SettingsViewModel = hiltViewModel()) {
     val settings = viewModel.settingsFlow.collectAsState().value
-    var openDialog by remember { mutableStateOf(false) }
+    var openThemeDialog by remember { mutableStateOf(false) }
+    var openResetConfirmationDialog by remember { mutableStateOf(false) }
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -35,22 +36,29 @@ fun SettingsScreen(viewModel: SettingsViewModel = hiltViewModel()) {
                 }
             }
         )
-        Row(
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(48.dp)
-                .clickable { openDialog = true }
-                .padding(horizontal = 16.dp)
-        ) {
-            Text(text = stringResource(id = R.string.settings_theme))
-
-        }
+        SettingsButton(
+            text = {
+                Text(text = stringResource(id = R.string.settings_theme))
+            },
+            onClick = {
+                openThemeDialog = true
+            }
+        )
         Divider()
-        if (openDialog) {
+        SettingsButton(
+            text = {
+                Text(
+                    text = stringResource(id = R.string.action_reset),
+                    color = MaterialTheme.colors.error
+                )
+            },
+            onClick = {
+                openResetConfirmationDialog = true
+            }
+        )
+        if (openThemeDialog) {
             AlertDialog(
-                onDismissRequest = { openDialog = false },
+                onDismissRequest = { openThemeDialog = false },
                 title = {
                     Text(text = stringResource(id = R.string.settings_select_theme))
                 },
@@ -64,11 +72,13 @@ fun SettingsScreen(viewModel: SettingsViewModel = hiltViewModel()) {
                                 ApplicationSettings.Theme.GREEN -> R.string.settings_theme_green
                             }
                             val selected = (settings as? SettingsState.Loaded)?.settings?.theme == theme
-                            Row {
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
                                 RadioButton(
                                     selected = selected,
                                     onClick = {
-                                        openDialog = false
+                                        openThemeDialog = false
                                         viewModel.selectTheme(theme)
                                     }
                                 )
@@ -78,6 +88,43 @@ fun SettingsScreen(viewModel: SettingsViewModel = hiltViewModel()) {
                     }
                 },
                 buttons = { }
+            )
+        }
+        if (openResetConfirmationDialog) {
+            AlertDialog(
+                onDismissRequest = { openResetConfirmationDialog = false },
+                title = {
+                    Text(text = stringResource(id = R.string.settings_reset_confirmation_title))
+                },
+                text = {
+                    Text(text = stringResource(id = R.string.settings_reset_confirmation_description))
+                },
+                buttons = {
+                    Row(
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        modifier = Modifier
+                            .padding(8.dp)
+                            .fillMaxWidth()
+                    ) {
+                        Button(
+                            onClick = { openResetConfirmationDialog = false }
+                        ) {
+                            Text(text = stringResource(id = R.string.label_no))
+                        }
+                        Button(
+                            colors = ButtonDefaults.buttonColors(backgroundColor = MaterialTheme.colors.error),
+                            onClick = {
+                                openResetConfirmationDialog = false
+                                viewModel.reset()
+                            }
+                        ) {
+                            Text(
+                                text = stringResource(id = R.string.label_yes),
+                                color = MaterialTheme.colors.onError
+                            )
+                        }
+                    }
+                }
             )
         }
     }

@@ -8,4 +8,6 @@ interface SettingsRepository {
     val settingsFlow: Flow<ApplicationSettings>
 
     suspend fun selectTheme(theme: ApplicationSettings.Theme)
+
+    suspend fun reset()
 }

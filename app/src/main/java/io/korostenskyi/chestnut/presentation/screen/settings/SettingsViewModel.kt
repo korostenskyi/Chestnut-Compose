@@ -42,4 +42,10 @@ class SettingsViewModel @Inject constructor(
             interactor.selectTheme(theme)
         }
     }
+
+    fun reset() {
+        viewModelScope.launch {
+            interactor.reset()
+        }
+    }
 }
