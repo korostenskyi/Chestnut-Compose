@@ -82,6 +82,7 @@ fun SettingsScreen(viewModel: SettingsViewModel = hiltViewModel()) {
                                         viewModel.selectTheme(theme)
                                     }
                                 )
+                                Spacer(modifier = Modifier.size(4.dp))
                                 Text(text = stringResource(id = textId))
                             }
                         }
