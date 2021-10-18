@@ -6,5 +6,7 @@ interface Router {
 
     fun navigate(navigator: (Router) -> Unit)
 
-    fun fromPopularToDetails(movieId: Int)
+    fun fromHomeToDetails(movieId: Int)
+
+    fun fromHomeToSettings()
 }

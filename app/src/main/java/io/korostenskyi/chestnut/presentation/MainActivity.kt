@@ -3,11 +3,12 @@ package io.korostenskyi.chestnut.presentation
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.compose.runtime.collectAsState
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -15,6 +16,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import dagger.hilt.android.AndroidEntryPoint
+import io.korostenskyi.chestnut.domain.model.ApplicationSettings
 import io.korostenskyi.chestnut.presentation.navigation.NavigationFlow
 import io.korostenskyi.chestnut.presentation.navigation.NavigationNames
 import io.korostenskyi.chestnut.presentation.navigation.Router
@@ -22,6 +24,7 @@ import io.korostenskyi.chestnut.presentation.navigation.RouterImpl
 import io.korostenskyi.chestnut.presentation.screen.details.DetailsScreen
 import io.korostenskyi.chestnut.presentation.screen.details.DetailsViewModel
 import io.korostenskyi.chestnut.presentation.screen.home.HomeScreen
+import io.korostenskyi.chestnut.presentation.screen.settings.SettingsScreen
 import io.korostenskyi.chestnut.presentation.theme.ChestnutTheme
 import javax.inject.Inject
 
@@ -31,12 +34,15 @@ class MainActivity : ComponentActivity() {
     @Inject lateinit var navigationFlow: NavigationFlow
     @Inject lateinit var detailsFactory: DetailsViewModel.DetailsAssistedFactory
 
+    private val viewModel by viewModels<MainViewModel>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             val navController = rememberNavController()
             val router: Router = RouterImpl(navController)
-            ChestnutApp {
+            val settings = viewModel.settingsFlow.collectAsState().value
+            ChestnutApp(settings) {
                 LaunchedEffect(Router::class.java) {
                     navigationFlow.collect(router)
                 }
@@ -58,6 +64,9 @@ class MainActivity : ComponentActivity() {
                         )
                         DetailsScreen(viewModel)
                     }
+                    composable(NavigationNames.Settings) {
+                        SettingsScreen()
+                    }
                 }
             }
         }
@@ -65,8 +74,11 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun ChestnutApp(content: @Composable () -> Unit) {
-    ChestnutTheme {
+fun ChestnutApp(
+    settings: ApplicationSettings,
+    content: @Composable () -> Unit
+) {
+    ChestnutTheme(settings.theme) {
         Surface(color = MaterialTheme.colors.background) {
             content()
         }

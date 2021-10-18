@@ -23,6 +23,7 @@ fun MovieCard(movie: Movie, onClick: (Movie) -> Unit, modifier: Modifier = Modif
     Box(
         modifier = modifier
             .clip(RoundedCornerShape(12f))
+            .clickable { onClick(movie) }
     ) {
         Image(
             painter = rememberImagePainter(
@@ -37,7 +38,6 @@ fun MovieCard(movie: Movie, onClick: (Movie) -> Unit, modifier: Modifier = Modif
             modifier = Modifier
                 .height(180.dp)
                 .fillMaxSize()
-                .clickable { onClick(movie) }
         )
         Surface(
             color = Color(0xCC000000),

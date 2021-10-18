@@ -27,7 +27,15 @@ class HomeViewModel @Inject constructor(
     fun openDetailsScreen(movieId: Int) {
         viewModelScope.launch {
             navigationFlow.navigate {
-                fromPopularToDetails(movieId)
+                fromHomeToDetails(movieId)
+            }
+        }
+    }
+
+    fun openSettingsScreen() {
+        viewModelScope.launch {
+            navigationFlow.navigate {
+                fromHomeToSettings()
             }
         }
     }
