@@ -2,6 +2,7 @@ package io.korostenskyi.chestnut.presentation.composables
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.text.ClickableText
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -36,7 +37,10 @@ fun ExpandableText(
             ClickableText(
                 text = AnnotatedString(text = overflowText),
                 onClick = { expanded = !expanded },
-                style = TextStyle(fontWeight = FontWeight.Bold)
+                style = TextStyle(
+                    fontWeight = FontWeight.Bold,
+                    color = MaterialTheme.colors.onBackground
+                )
             )
         }
     }

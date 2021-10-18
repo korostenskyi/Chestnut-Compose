@@ -21,7 +21,7 @@
     <string name="settings_theme_system">System Default</string>
     <string name="settings_theme_light">Light</string>
     <string name="settings_theme_dark">Dark</string>
-    <string name="settings_theme_green">Green</string>
+    <string name="settings_theme_purple">Purple</string>
     <string name="settings_reset_confirmation_title">Are you sure?</string>
     <string name="settings_reset_confirmation_description">Do you really want to reset settings?</string>
 

@@ -6,25 +6,34 @@ import androidx.compose.material.darkColors
 import androidx.compose.material.lightColors
 import androidx.compose.material.primarySurface
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.Color
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import io.korostenskyi.chestnut.domain.model.ApplicationSettings
 
 private val DarkColorPalette = darkColors(
     primary = Purple200,
     primaryVariant = Purple700,
-    secondary = Teal200
+    secondary = Green400
 )
 
 private val LightColorPalette = lightColors(
-    primary = Purple500,
-    primaryVariant = Purple700,
-    secondary = Teal200
+    primary = Color.White,
+    secondary = Green400,
+    onBackground = Color.Black,
+    onPrimary = Color.Black,
+    onSecondary = Color.Black,
+    onSurface = Color.Black,
+    onError = Color.White
 )
 
-private val GreenColorPalette = lightColors(
-    primary = Green800,
-    primaryVariant = Green900,
-    secondary = Green400
+private val PurpleColorPalette = lightColors(
+    primary = Purple500,
+    primaryVariant = Purple700,
+    secondary = Green400,
+    onBackground = Color.Black,
+    onPrimary = Color.White,
+    onSecondary = Color.Black,
+    onSurface = Color.White
 )
 
 @Composable
@@ -42,12 +51,9 @@ fun ChestnutTheme(
         }
         ApplicationSettings.Theme.DARK -> DarkColorPalette
         ApplicationSettings.Theme.LIGHT -> LightColorPalette
-        ApplicationSettings.Theme.GREEN -> GreenColorPalette
+        ApplicationSettings.Theme.PURPLE -> PurpleColorPalette
     }
-    uiController.setStatusBarColor(
-        color = colors.primarySurface,
-        darkIcons = !colors.isLight
-    )
+    uiController.setStatusBarColor(color = colors.primarySurface)
     MaterialTheme(
         colors = colors,
         typography = Typography,

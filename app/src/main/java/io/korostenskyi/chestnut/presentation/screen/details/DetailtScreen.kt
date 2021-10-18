@@ -38,7 +38,8 @@ fun DetailsScreen(viewModel: DetailsViewModel) {
                     IconButton(onClick = { viewModel.share(state.movieInfo) }) {
                         Image(
                             painter = painterResource(id = R.drawable.ic_share),
-                            contentDescription = stringResource(id = R.string.action_share)
+                            contentDescription = stringResource(id = R.string.action_share),
+                            colorFilter = ColorFilter.tint(MaterialTheme.colors.onSurface)
                         )
                     }
                 }
@@ -47,7 +48,8 @@ fun DetailsScreen(viewModel: DetailsViewModel) {
                 IconButton(onClick = { viewModel.back() }) {
                     Image(
                         painter = painterResource(id = R.drawable.ic_arrow_back),
-                        contentDescription = stringResource(id = R.string.action_back)
+                        contentDescription = stringResource(id = R.string.action_back),
+                        colorFilter = ColorFilter.tint(MaterialTheme.colors.onSurface)
                     )
                 }
             }
@@ -107,17 +109,13 @@ fun DetailsView(
                         Image(
                             painter = painterResource(id = R.drawable.ic_favorite_filled),
                             contentDescription = stringResource(id = R.string.action_remove_from_favorites),
-                            colorFilter = ColorFilter.tint(
-                                color = Color.Black
-                            )
+                            colorFilter = ColorFilter.tint(color = MaterialTheme.colors.onBackground)
                         )
                     } else {
                         Image(
                             painter = painterResource(id = R.drawable.ic_favorite_outlined),
                             contentDescription = stringResource(id = R.string.action_remove_from_favorites),
-                            colorFilter = ColorFilter.tint(
-                                color = Color.Black
-                            )
+                            colorFilter = ColorFilter.tint(color = MaterialTheme.colors.onBackground)
                         )
                     }
                 }
@@ -132,8 +130,10 @@ fun DetailsView(
                 ) {
                     Icon(
                         painter = painterResource(id = R.drawable.ic_time),
-                        contentDescription = stringResource(id = R.string.details_release_date)
+                        contentDescription = stringResource(id = R.string.details_release_date),
+                        tint = MaterialTheme.colors.onBackground
                     )
+                    Spacer(modifier = Modifier.size(4.dp))
                     Text(text = movie.releaseDate)
                 }
                 Row(
@@ -142,13 +142,15 @@ fun DetailsView(
                 ) {
                     Icon(
                         painter = painterResource(id = R.drawable.ic_star),
-                        contentDescription = stringResource(id = R.string.details_average_rating)
+                        contentDescription = stringResource(id = R.string.details_average_rating),
+                        tint = MaterialTheme.colors.onBackground
                     )
+                    Spacer(modifier = Modifier.size(4.dp))
                     Text(text = movie.voteAverage.toString())
                 }
             }
         }
-        Divider()
+        Divider(color = MaterialTheme.colors.onBackground)
         Column(
             modifier = Modifier
                 .padding(vertical = 8.dp)
@@ -163,6 +165,6 @@ fun DetailsView(
                 minimumLines = 3
             )
         }
-        Divider()
+        Divider(color = MaterialTheme.colors.onBackground)
     }
 }

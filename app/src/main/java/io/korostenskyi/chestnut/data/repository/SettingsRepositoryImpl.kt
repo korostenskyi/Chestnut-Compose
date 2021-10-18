@@ -19,7 +19,7 @@ class SettingsRepositoryImpl @Inject constructor(context: Context) : SettingsRep
             ApplicationSettings.Theme.SYSTEM.name -> ApplicationSettings.Theme.SYSTEM
             ApplicationSettings.Theme.LIGHT.name -> ApplicationSettings.Theme.LIGHT
             ApplicationSettings.Theme.DARK.name -> ApplicationSettings.Theme.DARK
-            ApplicationSettings.Theme.GREEN.name -> ApplicationSettings.Theme.GREEN
+            ApplicationSettings.Theme.PURPLE.name -> ApplicationSettings.Theme.PURPLE
             else -> ApplicationSettings.Theme.SYSTEM
         }
         return@map ApplicationSettings(theme)
