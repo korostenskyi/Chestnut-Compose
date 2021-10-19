@@ -19,10 +19,26 @@ android {
             useSupportLibrary true
         }
     }
+    signingConfigs {
+        release {
+            def keystorePropertiesFile = rootProject.file('.signing/release.properties')
+            if (keystorePropertiesFile.exists()) {
+                def keystoreProperties = new Properties()
+                keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+                storeFile rootProject.file('.signing/release.jks')
+                storePassword trimKeystoreValue(keystoreProperties['storePassword'])
+                keyAlias trimKeystoreValue(keystoreProperties['keyAlias'])
+                keyPassword trimKeystoreValue(keystoreProperties['keyPassword'])
+            } else {
+                println 'Could not find release.properties'
+            }
+        }
+    }
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
         }
     }
     compileOptions {
@@ -74,6 +90,10 @@ android {
             }
         }
     }
+}
+
+static String trimKeystoreValue(String value) {
+    return value.replaceAll("^\"|\"\$", "")
 }
 
 dependencies {

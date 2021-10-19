@@ -43,3 +43,6 @@ captures/
 # Configuration
 config/dev.properties
 config/release.properties
+
+# Keys
+.signing/*
