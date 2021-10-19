@@ -20,7 +20,7 @@ jobs:
       - name: Create .signing folder
         run: mkdir .signing
       - name: Decrypt release keystore
-        run: echo "$RELEASE_KEYSTORE_FILE" | base64 -d > .signing/zupa-release.jks
+        run: echo "$RELEASE_KEYSTORE_FILE" | base64 -d > .signing/release.jks
         env:
           RELEASE_KEYSTORE_FILE: ${{ secrets.RELEASE_KEYSTORE_FILE }}
       - name: Export debug configuration
