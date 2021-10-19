@@ -39,6 +39,13 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
+            buildConfigField "Boolean", "ENABLE_SENTRY", "true"
+        }
+        debug {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            buildConfigField "Boolean", "ENABLE_SENTRY", "false"
+            versionNameSuffix "-debug"
         }
     }
     compileOptions {
@@ -73,6 +80,7 @@ android {
                 def keystoreProperties = new Properties()
                 keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
                 buildConfigField "String", "TMDB_API_KEY", "\"${keystoreProperties['TMBD_KEY']}\""
+                buildConfigField "String", "SENTRY_DNS_URL", "\"${keystoreProperties['SENTRY_DNS_URL']}\""
             } else {
                 println 'Could not find release.properties'
             }
@@ -85,6 +93,7 @@ android {
                 def keystoreProperties = new Properties()
                 keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
                 buildConfigField "String", "TMDB_API_KEY", "\"${keystoreProperties['TMBD_KEY']}\""
+                buildConfigField "String", "SENTRY_DNS_URL", "\"${keystoreProperties['SENTRY_DNS_URL']}\""
             } else {
                 println 'Could not find dev.properties'
             }
@@ -139,6 +148,9 @@ dependencies {
     api "androidx.room:room-runtime:$room_version"
     implementation "androidx.room:room-ktx:$room_version"
     kapt "androidx.room:room-compiler:$room_version"
+
+    // Sentry
+    implementation 'io.sentry:sentry-android:5.2.4'
 
     // Test
     testImplementation 'junit:junit:4.13.2'

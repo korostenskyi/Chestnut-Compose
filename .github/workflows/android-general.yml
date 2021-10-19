@@ -30,9 +30,10 @@ jobs:
         env:
           RELEASE_KEYSTORE_FILE: ${{ secrets.RELEASE_KEYSTORE_FILE }}
       - name: Export debug configuration
-        run: echo "TMBD_KEY=$DEBUG_TMBD_KEY" > config/dev.properties
+        run: echo "TMBD_KEY=$DEBUG_TMBD_KEY" > config/dev.properties && echo "SENTRY_DNS_URL=$SENTRY_URL" >> config/dev.properties
         env:
           DEBUG_TMBD_KEY: ${{ secrets.DEBUG_TMBD_KEY }}
+          SENTRY_URL: ${{ secrets.SENTRY_URL }}
       - name: Export release configuration
         run: echo "TMBD_KEY=$DEBUG_TMBD_KEY" > config/dev.properties
         env:
