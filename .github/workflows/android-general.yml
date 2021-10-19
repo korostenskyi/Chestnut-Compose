@@ -25,26 +25,18 @@ jobs:
           cache: 'gradle'
       - name: Create .signing folder
         run: mkdir .signing
-      - name: Decrypt debug keystore
-        run: echo "$DEBUG_KEYSTORE_FILE" | base64 -d > .signing/zupa-debug.jks
-        env:
-          DEBUG_KEYSTORE_FILE:  ${{ secrets.DEBUG_KEYSTORE_FILE }}
-      - name: Create local.properties
-        run: touch local.properties
-      - name: Export debug local.properties keys
-        run: echo "MAPS_API_KEY=$DEBUG_GOOGLE_MAPS_KEY" >> local.properties
-        env:
-          DEBUG_GOOGLE_MAPS_KEY: ${{ secrets.DEBUG_GOOGLE_MAPS_KEY }}
       - name: Decrypt release keystore
         run: echo "$RELEASE_KEYSTORE_FILE" | base64 -d > .signing/zupa-release.jks
         env:
           RELEASE_KEYSTORE_FILE: ${{ secrets.RELEASE_KEYSTORE_FILE }}
-      - name: Export debug keystore credentials
-        run: echo "keyAlias=$DEBUG_KEY_ALIAS" > .signing/debug.properties && echo "storePassword=$DEBUG_STORE_PASSWORD" >> .signing/debug.properties && echo "keyPassword=$DEBUG_KEY_PASSWORD" >> .signing/debug.properties
+      - name: Export debug configuration
+        run: echo "TMBD_KEY=$DEBUG_TMBD_KEY" > config/dev.properties
         env:
-          DEBUG_KEY_ALIAS:  ${{ secrets.DEBUG_KEY_ALIAS }}
-          DEBUG_STORE_PASSWORD:  ${{ secrets.DEBUG_STORE_PASSWORD }}
-          DEBUG_KEY_PASSWORD:  ${{ secrets.DEBUG_KEY_PASSWORD }}
+          DEBUG_TMBD_KEY: ${{ secrets.DEBUG_TMBD_KEY }}
+      - name: Export release configuration
+        run: echo "TMBD_KEY=$DEBUG_TMBD_KEY" > config/dev.properties
+        env:
+          RELEASE_TMBD_KEY: ${{ secrets.RELEASE_TMBD_KEY }}
       - name: Export release keystore credentials
         run: echo "keyAlias=$RELEASE_KEY_ALIAS" > .signing/release.properties && echo "storePassword=$RELEASE_STORE_PASSWORD" >> .signing/release.properties && echo "keyPassword=$RELEASE_KEY_PASSWORD" >> .signing/release.properties
         env:
