@@ -12,8 +12,8 @@ android {
         applicationId "io.korostenskyi.chestnut"
         minSdk 23
         targetSdk 31
-        versionCode 1
-        versionName "1.0"
+        versionCode buildCode
+        versionName buildName
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
             useSupportLibrary true
