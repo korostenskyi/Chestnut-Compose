@@ -12,17 +12,40 @@ android {
         applicationId "io.korostenskyi.chestnut"
         minSdk 23
         targetSdk 31
-        versionCode 1
-        versionName "1.0"
+        versionCode buildCode
+        versionName buildName
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
             useSupportLibrary true
+        }
+    }
+    signingConfigs {
+        release {
+            def keystorePropertiesFile = rootProject.file('.signing/release.properties')
+            if (keystorePropertiesFile.exists()) {
+                def keystoreProperties = new Properties()
+                keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+                storeFile rootProject.file('.signing/release.jks')
+                storePassword trimKeystoreValue(keystoreProperties['storePassword'])
+                keyAlias trimKeystoreValue(keystoreProperties['keyAlias'])
+                keyPassword trimKeystoreValue(keystoreProperties['keyPassword'])
+            } else {
+                println 'Could not find release.properties'
+            }
         }
     }
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+            buildConfigField "Boolean", "ENABLE_SENTRY", "true"
+        }
+        debug {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            buildConfigField "Boolean", "ENABLE_SENTRY", "false"
+            versionNameSuffix "-debug"
         }
     }
     compileOptions {
@@ -57,6 +80,7 @@ android {
                 def keystoreProperties = new Properties()
                 keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
                 buildConfigField "String", "TMDB_API_KEY", "\"${keystoreProperties['TMBD_KEY']}\""
+                buildConfigField "String", "SENTRY_DNS_URL", "\"${keystoreProperties['SENTRY_DNS_URL']}\""
             } else {
                 println 'Could not find release.properties'
             }
@@ -69,11 +93,16 @@ android {
                 def keystoreProperties = new Properties()
                 keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
                 buildConfigField "String", "TMDB_API_KEY", "\"${keystoreProperties['TMBD_KEY']}\""
+                buildConfigField "String", "SENTRY_DNS_URL", "\"${keystoreProperties['SENTRY_DNS_URL']}\""
             } else {
                 println 'Could not find dev.properties'
             }
         }
     }
+}
+
+static String trimKeystoreValue(String value) {
+    return value.replaceAll("^\"|\"\$", "")
 }
 
 dependencies {
@@ -119,6 +148,9 @@ dependencies {
     api "androidx.room:room-runtime:$room_version"
     implementation "androidx.room:room-ktx:$room_version"
     kapt "androidx.room:room-compiler:$room_version"
+
+    // Sentry
+    implementation 'io.sentry:sentry-android:5.2.4'
 
     // Test
     testImplementation 'junit:junit:4.13.2'

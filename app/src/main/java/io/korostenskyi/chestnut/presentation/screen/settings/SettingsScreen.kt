@@ -1,11 +1,14 @@
 package io.korostenskyi.chestnut.presentation.screen.settings
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -31,7 +34,8 @@ fun SettingsScreen(viewModel: SettingsViewModel = hiltViewModel()) {
                 IconButton(onClick = { viewModel.back() }) {
                     Image(
                         painter = painterResource(id = R.drawable.ic_arrow_back),
-                        contentDescription = stringResource(id = R.string.action_back)
+                        contentDescription = stringResource(id = R.string.action_back),
+                        colorFilter = ColorFilter.tint(MaterialTheme.colors.onSurface)
                     )
                 }
             }
@@ -44,7 +48,7 @@ fun SettingsScreen(viewModel: SettingsViewModel = hiltViewModel()) {
                 openThemeDialog = true
             }
         )
-        Divider()
+        Divider(color = MaterialTheme.colors.onBackground)
         SettingsButton(
             text = {
                 Text(
@@ -56,6 +60,7 @@ fun SettingsScreen(viewModel: SettingsViewModel = hiltViewModel()) {
                 openResetConfirmationDialog = true
             }
         )
+        Divider(color = MaterialTheme.colors.onBackground)
         if (openThemeDialog) {
             AlertDialog(
                 onDismissRequest = { openThemeDialog = false },
@@ -69,14 +74,23 @@ fun SettingsScreen(viewModel: SettingsViewModel = hiltViewModel()) {
                                 ApplicationSettings.Theme.SYSTEM -> R.string.settings_theme_system
                                 ApplicationSettings.Theme.LIGHT -> R.string.settings_theme_light
                                 ApplicationSettings.Theme.DARK -> R.string.settings_theme_dark
-                                ApplicationSettings.Theme.GREEN -> R.string.settings_theme_green
+                                ApplicationSettings.Theme.PURPLE -> R.string.settings_theme_purple
                             }
                             val selected = (settings as? SettingsState.Loaded)?.settings?.theme == theme
                             Row(
-                                verticalAlignment = Alignment.CenterVertically
+                                verticalAlignment = Alignment.CenterVertically,
+                                modifier = Modifier.clickable {
+                                    openThemeDialog = false
+                                    viewModel.selectTheme(theme)
+                                }
                             ) {
                                 RadioButton(
                                     selected = selected,
+                                    colors = RadioButtonDefaults.colors(
+                                        selectedColor = MaterialTheme.colors.secondary,
+                                        unselectedColor = MaterialTheme.colors.onBackground.copy(alpha = 0.6f),
+                                        disabledColor = MaterialTheme.colors.onBackground.copy(alpha = ContentAlpha.disabled)
+                                    ),
                                     onClick = {
                                         openThemeDialog = false
                                         viewModel.selectTheme(theme)
@@ -108,6 +122,7 @@ fun SettingsScreen(viewModel: SettingsViewModel = hiltViewModel()) {
                             .fillMaxWidth()
                     ) {
                         Button(
+                            colors = ButtonDefaults.buttonColors(backgroundColor = MaterialTheme.colors.secondary),
                             onClick = { openResetConfirmationDialog = false }
                         ) {
                             Text(text = stringResource(id = R.string.label_no))

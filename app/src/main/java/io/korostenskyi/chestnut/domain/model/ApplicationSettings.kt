@@ -8,6 +8,6 @@ data class ApplicationSettings(
         SYSTEM,
         LIGHT,
         DARK,
-        GREEN
+        PURPLE
     }
 }

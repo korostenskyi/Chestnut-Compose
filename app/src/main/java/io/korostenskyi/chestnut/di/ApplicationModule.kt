@@ -22,10 +22,14 @@ object ApplicationModule {
         val tmdbBaseUrl = BuildConfig.TMDB_BASE_URL
         val tmdbApiKey = BuildConfig.TMDB_API_KEY
         val isDebug = BuildConfig.DEBUG
+        val isSentryEnabled = BuildConfig.ENABLE_SENTRY
+        val sentryUrl = BuildConfig.SENTRY_DNS_URL
         return BuildParams(
             tmdbBaseUrl = tmdbBaseUrl,
             tmdbApiKey = tmdbApiKey,
-            isDebug = isDebug
+            isDebug = isDebug,
+            isSentryEnabled = isSentryEnabled,
+            sentryUrl = sentryUrl
         )
     }
 

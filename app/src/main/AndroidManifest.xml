@@ -12,6 +12,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Chestnut">
+
+        <meta-data
+            android:name="io.sentry.auto-init"
+            android:value="false" />
+
         <activity
             android:name=".presentation.MainActivity"
             android:exported="true"
