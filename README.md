@@ -34,12 +34,10 @@
 
 - Android 6.0+
 
-## Availability
+## Download
 
-![PlayStore][playstore-image][playstore-app-url]
-
-<!-- Remote Images -->
-[playstore-image]: https://raw.githubusercontent.com/steverichey/google-play-badge-svg/266d2b2df26f10d3c00b8129a0bd9f6da6b19f00/img/en_get.svg 
-
-<!-- URLS -->
-[playstore-app-url]: https://play.google.com/store/apps/details?id=io.korostenskyi.chestnut
+<a href="https://play.google.com/store/apps/details?id=io.korostenskyi.chestnut">
+  <img src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png" 
+       alt="Get it on Google Play"
+       height="80" />
+</a>
