@@ -36,7 +36,7 @@
 
 ## Availability
 
-[![PlayStore][playstore-image][playstore-app-url]]
+![PlayStore][playstore-image][playstore-app-url]
 
 <!-- Remote Images -->
 [playstore-image]: https://raw.githubusercontent.com/steverichey/google-play-badge-svg/266d2b2df26f10d3c00b8129a0bd9f6da6b19f00/img/en_get.svg 
