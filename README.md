@@ -1,6 +1,14 @@
 # Chestnut
 > A small app for viewing info about popular movies from TMDB.
 
+## Download
+
+<a href="https://play.google.com/store/apps/details?id=io.korostenskyi.chestnut">
+  <img src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png" 
+       alt="Get it on Google Play"
+       height="80" />
+</a>
+
 ## Features ✨
 
 - [x] Fetching movies from TMDB API
@@ -33,11 +41,3 @@
 ## Requirements 🏗
 
 - Android 6.0+
-
-## Download
-
-<a href="https://play.google.com/store/apps/details?id=io.korostenskyi.chestnut">
-  <img src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png" 
-       alt="Get it on Google Play"
-       height="80" />
-</a>
