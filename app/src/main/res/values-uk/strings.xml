@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Chestnut</string>
+
+    <!-- Screen titles -->
+    <string name="title_popular">Популярні фільми</string>
+    <string name="title_details">Інформація про фільм</string>
+    <string name="title_settings">Налаштування</string>
+
+    <!-- Screen states -->
+    <string name="state_loading">Завантаження</string>
+    <string name="state_error">Помилка</string>
+
+    <!-- Details Screen -->
+    <string name="details_description">Опис</string>
+    <string name="details_release_date">Дата виходу</string>
+    <string name="details_average_rating">Середня оцінка</string>
+
+    <!-- Settings Screen -->
+    <string name="settings_theme">Тема</string>
+    <string name="settings_select_theme">Оберіть тему</string>
+    <string name="settings_theme_system">Системна</string>
+    <string name="settings_theme_light">Світла</string>
+    <string name="settings_theme_dark">Темна</string>
+    <string name="settings_theme_purple">Фіолетова</string>
+    <string name="settings_reset_confirmation_title">Ви впевнені?</string>
+    <string name="settings_reset_confirmation_description">Ви дійсно хочете скинути налаштування?</string>
+
+    <!-- General -->
+    <string name="label_see_more">Більше…</string>
+    <string name="label_yes">Так</string>
+    <string name="label_no">Ні</string>
+
+    <!-- Actions -->
+    <string name="action_back">Назад</string>
+    <string name="action_share">Поділитися</string>
+    <string name="action_add_to_favorites">Додати до улюблених</string>
+    <string name="action_remove_from_favorites">Видалити з улюблених</string>
+    <string name="action_reset">Скинути</string>
+</resources>
