@@ -18,7 +18,12 @@ class App : Application() {
 
     private fun initSentry() {
         if (buildParams.isSentryEnabled) {
-            Sentry.init(buildParams.sentryUrl)
+            Sentry.init { options ->
+                options.apply {
+                    dsn = buildParams.sentryUrl
+                    isEnableAutoSessionTracking = true
+                }
+            }
         }
     }
 }
