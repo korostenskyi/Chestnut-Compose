@@ -11,12 +11,14 @@ interface TmdbApi {
     @GET("movie/popular")
     suspend fun fetchPopularMovies(
         @Query("api_key") apiKey: String,
-        @Query("page") page: Int
+        @Query("page") page: Int,
+        @Query("language") language: String
     ): PopularMoviesResponse
 
     @GET("movie/{movie_id}")
     suspend fun fetchMovieInfo(
         @Path("movie_id") movieId: Int,
-        @Query("api_key") apiKey: String
+        @Query("api_key") apiKey: String,
+        @Query("language") language: String
     ): MovieInfoResponse
 }

@@ -5,7 +5,7 @@ import io.korostenskyi.chestnut.data.network.model.PopularMoviesResponse
 
 interface MovieNetworkDataSource {
 
-    suspend fun fetchPopularMovies(page: Int): PopularMoviesResponse
+    suspend fun fetchPopularMovies(page: Int, language: String): PopularMoviesResponse
 
-    suspend fun fetchMovieDetails(id: Int): MovieInfoResponse
+    suspend fun fetchMovieDetails(id: Int, language: String): MovieInfoResponse
 }

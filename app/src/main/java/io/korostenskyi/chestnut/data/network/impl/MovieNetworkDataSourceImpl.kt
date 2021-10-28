@@ -12,11 +12,11 @@ class MovieNetworkDataSourceImpl @Inject constructor(
     private val buildParams: BuildParams
 ) : MovieNetworkDataSource {
 
-    override suspend fun fetchPopularMovies(page: Int): PopularMoviesResponse {
-        return api.fetchPopularMovies(buildParams.tmdbApiKey, page)
+    override suspend fun fetchPopularMovies(page: Int, language: String): PopularMoviesResponse {
+        return api.fetchPopularMovies(buildParams.tmdbApiKey, page, language)
     }
 
-    override suspend fun fetchMovieDetails(id: Int): MovieInfoResponse {
-        return api.fetchMovieInfo(id, buildParams.tmdbApiKey)
+    override suspend fun fetchMovieDetails(id: Int, language: String): MovieInfoResponse {
+        return api.fetchMovieInfo(id, buildParams.tmdbApiKey, language)
     }
 }
