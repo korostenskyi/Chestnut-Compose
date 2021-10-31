@@ -35,6 +35,19 @@ class ApiResponseMapper @Inject constructor() {
         )
     }
 
+    fun mapToMovie(response: MovieInfoResponse): Movie {
+        return Movie(
+            id = response.id,
+            title = response.title,
+            description = response.description,
+            posterPath = "$POSTER_BASE_URL${response.posterPath}",
+            backdropPath = response.backdropPath?.let { "$BACKDROP_BASE_URL$it" },
+            isAdult = response.isAdult,
+            voteAverage = response.voteAverage,
+            voteCount = response.voteCount
+        )
+    }
+
     companion object {
         private const val IMAGE_BASE_URL = "https://image.tmdb.org/t/p"
         private const val POSTER_BASE_URL = "$IMAGE_BASE_URL/w185_and_h278_bestv2"

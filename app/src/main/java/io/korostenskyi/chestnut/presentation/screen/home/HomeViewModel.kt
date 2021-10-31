@@ -10,6 +10,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import io.korostenskyi.chestnut.domain.interactor.MovieInteractor
 import io.korostenskyi.chestnut.presentation.navigation.NavigationFlow
 import io.korostenskyi.chestnut.presentation.navigation.Router
+import io.korostenskyi.chestnut.presentation.utils.DEFAULT_PAGE_SIZE
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
@@ -21,7 +22,7 @@ class HomeViewModel @Inject constructor(
     private val navigationFlow: NavigationFlow
 ) : ViewModel() {
 
-    val moviesStateFlow = Pager(PagingConfig(pageSize = 20)) {
+    val moviesStateFlow = Pager(PagingConfig(pageSize = DEFAULT_PAGE_SIZE)) {
         MoviePagingSource(movieInteractor)
     }.flow.stateIn(viewModelScope, SharingStarted.Lazily, PagingData.empty()).cachedIn(viewModelScope)
 

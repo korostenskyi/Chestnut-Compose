@@ -21,6 +21,10 @@ class MovieInteractorImpl @Inject constructor(
         return repository.retrieveMovieInfo(id)
     }
 
+    override suspend fun retrieveMoviesByIds(ids: List<Int>): List<Movie> {
+        return repository.retrieveMoviesByIds(ids)
+    }
+
     override suspend fun addToFavorites(id: Int) {
         repository.addToFavorites(id)
     }
