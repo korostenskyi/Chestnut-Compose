@@ -9,4 +9,6 @@ interface Router {
     fun fromHomeToDetails(movieId: Int)
 
     fun fromHomeToSettings()
+
+    fun fromHomeToFavorites()
 }

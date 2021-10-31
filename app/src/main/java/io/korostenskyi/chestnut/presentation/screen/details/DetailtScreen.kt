@@ -3,14 +3,14 @@ package io.korostenskyi.chestnut.presentation.screen.details
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberImagePainter
@@ -37,7 +37,7 @@ fun DetailsScreen(viewModel: DetailsViewModel) {
                 if (state is DetailsState.Success) {
                     IconButton(onClick = { viewModel.share(state.movieInfo) }) {
                         Image(
-                            painter = painterResource(id = R.drawable.ic_share),
+                            imageVector = Icons.Default.Share,
                             contentDescription = stringResource(id = R.string.action_share),
                             colorFilter = ColorFilter.tint(MaterialTheme.colors.onSurface)
                         )
@@ -47,7 +47,7 @@ fun DetailsScreen(viewModel: DetailsViewModel) {
             navigationIcon = {
                 IconButton(onClick = { viewModel.back() }) {
                     Image(
-                        painter = painterResource(id = R.drawable.ic_arrow_back),
+                        imageVector = Icons.Default.ArrowBack,
                         contentDescription = stringResource(id = R.string.action_back),
                         colorFilter = ColorFilter.tint(MaterialTheme.colors.onSurface)
                     )
@@ -107,13 +107,13 @@ fun DetailsView(
                 ) {
                     if (isInFavorites) {
                         Image(
-                            painter = painterResource(id = R.drawable.ic_favorite_filled),
+                            imageVector = Icons.Default.Favorite,
                             contentDescription = stringResource(id = R.string.action_remove_from_favorites),
                             colorFilter = ColorFilter.tint(color = MaterialTheme.colors.onBackground)
                         )
                     } else {
                         Image(
-                            painter = painterResource(id = R.drawable.ic_favorite_outlined),
+                            imageVector = Icons.Default.FavoriteBorder,
                             contentDescription = stringResource(id = R.string.action_remove_from_favorites),
                             colorFilter = ColorFilter.tint(color = MaterialTheme.colors.onBackground)
                         )
@@ -129,7 +129,7 @@ fun DetailsView(
                     modifier = Modifier.weight(1f)
                 ) {
                     Icon(
-                        painter = painterResource(id = R.drawable.ic_time),
+                        imageVector = Icons.Default.DateRange,
                         contentDescription = stringResource(id = R.string.details_release_date),
                         tint = MaterialTheme.colors.onBackground
                     )
@@ -141,7 +141,7 @@ fun DetailsView(
                     modifier = Modifier.weight(1f)
                 ) {
                     Icon(
-                        painter = painterResource(id = R.drawable.ic_star),
+                        imageVector = Icons.Default.Star,
                         contentDescription = stringResource(id = R.string.details_average_rating),
                         tint = MaterialTheme.colors.onBackground
                     )

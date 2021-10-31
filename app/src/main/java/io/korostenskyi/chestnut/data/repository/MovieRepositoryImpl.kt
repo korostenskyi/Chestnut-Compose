@@ -25,6 +25,10 @@ class MovieRepositoryImpl @Inject constructor(
         it.map { model -> model.movieId }
     }
 
+    override suspend fun retrieveMoviesByIds(ids: List<Int>): List<Movie> {
+        return ids.map { movieNetworkDataSource.fetchMovieDetails(it, language).let(mapper::mapToMovie) }
+    }
+
     // TODO: Handle errors
     override suspend fun retrievePopularMovies(page: Int): List<Movie> {
         return movieNetworkDataSource.fetchPopularMovies(page, language).movies.map(mapper::map)
