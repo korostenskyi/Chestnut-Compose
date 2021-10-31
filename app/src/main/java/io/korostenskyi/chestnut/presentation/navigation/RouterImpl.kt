@@ -21,4 +21,8 @@ class RouterImpl(
     override fun fromHomeToSettings() {
         navController.navigate(NavigationNames.Settings)
     }
+
+    override fun fromHomeToFavorites() {
+        navController.navigate(NavigationNames.Favorites)
+    }
 }

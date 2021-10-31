@@ -9,6 +9,7 @@ import androidx.paging.cachedIn
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.korostenskyi.chestnut.domain.interactor.MovieInteractor
 import io.korostenskyi.chestnut.presentation.navigation.NavigationFlow
+import io.korostenskyi.chestnut.presentation.navigation.Router
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
@@ -34,9 +35,13 @@ class HomeViewModel @Inject constructor(
 
     fun openSettingsScreen() {
         viewModelScope.launch {
-            navigationFlow.navigate {
-                fromHomeToSettings()
-            }
+            navigationFlow.navigate(Router::fromHomeToSettings)
+        }
+    }
+
+    fun openFavoritesScreen() {
+        viewModelScope.launch {
+            navigationFlow.navigate(Router::fromHomeToFavorites)
         }
     }
 }

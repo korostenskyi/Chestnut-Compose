@@ -11,10 +11,12 @@ import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -37,9 +39,16 @@ fun HomeScreen(viewModel: HomeViewModel = hiltViewModel()) {
                 Text(stringResource(R.string.title_popular))
             },
             actions = {
+                IconButton(onClick = { viewModel.openFavoritesScreen() }) {
+                    Image(
+                        imageVector = Icons.Default.Favorite,
+                        contentDescription = stringResource(id = R.string.title_favorites),
+                        colorFilter = ColorFilter.tint(MaterialTheme.colors.onSurface)
+                    )
+                }
                 IconButton(onClick = { viewModel.openSettingsScreen() }) {
                     Image(
-                        painter = painterResource(id = R.drawable.ic_settings),
+                        imageVector = Icons.Default.Settings,
                         contentDescription = stringResource(id = R.string.title_settings),
                         colorFilter = ColorFilter.tint(MaterialTheme.colors.onSurface)
                     )

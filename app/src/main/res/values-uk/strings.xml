@@ -6,6 +6,7 @@
     <string name="title_popular">Популярні фільми</string>
     <string name="title_details">Інформація про фільм</string>
     <string name="title_settings">Налаштування</string>
+    <string name="title_favorites">Улюблені</string>
 
     <!-- Screen states -->
     <string name="state_loading">Завантаження</string>
