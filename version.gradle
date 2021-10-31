@@ -1,8 +1,8 @@
 ext {
     majorVersion = 1
-    minorVersion = 0
+    minorVersion = 1
     patchVersion = 0
 
-    buildCode = 1
+    buildCode = 2
     buildName = "$majorVersion.$minorVersion.$patchVersion ($buildCode)"
 }

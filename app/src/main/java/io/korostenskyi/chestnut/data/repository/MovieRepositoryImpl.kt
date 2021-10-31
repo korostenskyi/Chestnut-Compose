@@ -9,6 +9,7 @@ import io.korostenskyi.chestnut.domain.model.MovieInfo
 import io.korostenskyi.chestnut.domain.repository.MovieRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import java.util.Locale
 import javax.inject.Inject
 
 class MovieRepositoryImpl @Inject constructor(
@@ -17,17 +18,24 @@ class MovieRepositoryImpl @Inject constructor(
     private val database: AppDatabase
 ) : MovieRepository {
 
+    private val language: String
+        get() = Locale.getDefault().toLanguageTag()
+
     override val favoriteMoviesFlow: Flow<List<Int>> = database.favoriteMoviesDao().getAllFavorites().map {
         it.map { model -> model.movieId }
     }
 
+    override suspend fun retrieveMoviesByIds(ids: List<Int>): List<Movie> {
+        return ids.map { movieNetworkDataSource.fetchMovieDetails(it, language).let(mapper::mapToMovie) }
+    }
+
     // TODO: Handle errors
     override suspend fun retrievePopularMovies(page: Int): List<Movie> {
-        return movieNetworkDataSource.fetchPopularMovies(page).movies.map(mapper::map)
+        return movieNetworkDataSource.fetchPopularMovies(page, language).movies.map(mapper::map)
     }
 
     override suspend fun retrieveMovieInfo(id: Int): MovieInfo {
-        return movieNetworkDataSource.fetchMovieDetails(id).let(mapper::map)
+        return movieNetworkDataSource.fetchMovieDetails(id, language).let(mapper::map)
     }
 
     override suspend fun addToFavorites(id: Int) {

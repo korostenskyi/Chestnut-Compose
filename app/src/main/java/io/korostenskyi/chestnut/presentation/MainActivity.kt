@@ -23,6 +23,7 @@ import io.korostenskyi.chestnut.presentation.navigation.Router
 import io.korostenskyi.chestnut.presentation.navigation.RouterImpl
 import io.korostenskyi.chestnut.presentation.screen.details.DetailsScreen
 import io.korostenskyi.chestnut.presentation.screen.details.DetailsViewModel
+import io.korostenskyi.chestnut.presentation.screen.favorites.FavoritesScreen
 import io.korostenskyi.chestnut.presentation.screen.home.HomeScreen
 import io.korostenskyi.chestnut.presentation.screen.settings.SettingsScreen
 import io.korostenskyi.chestnut.presentation.theme.ChestnutTheme
@@ -49,6 +50,9 @@ class MainActivity : ComponentActivity() {
                 NavHost(navController = navController, startDestination = NavigationNames.Home) {
                     composable(NavigationNames.Home) {
                         HomeScreen()
+                    }
+                    composable(NavigationNames.Favorites) {
+                        FavoritesScreen()
                     }
                     composable(
                         route = "${NavigationNames.Details}/{${NavigationNames.MovieIdArgument}}",

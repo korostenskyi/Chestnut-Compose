@@ -12,6 +12,8 @@ interface MovieInteractor {
 
     suspend fun retrieveMovieInfo(id: Int): MovieInfo
 
+    suspend fun retrieveMoviesByIds(ids: List<Int>): List<Movie>
+
     suspend fun addToFavorites(id: Int)
 
     suspend fun removeFromFavorites(id: Int)
