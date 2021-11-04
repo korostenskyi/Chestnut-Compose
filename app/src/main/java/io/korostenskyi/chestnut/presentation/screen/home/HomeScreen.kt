@@ -3,6 +3,7 @@ package io.korostenskyi.chestnut.presentation.screen.home
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.GridCells
 import androidx.compose.foundation.lazy.LazyVerticalGrid
@@ -33,7 +34,10 @@ import io.korostenskyi.chestnut.presentation.composables.MovieCard
 fun HomeScreen(viewModel: HomeViewModel = hiltViewModel()) {
     val listState = rememberLazyListState()
     val movies = viewModel.moviesStateFlow.collectAsLazyPagingItems()
-    Column {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+    ) {
         TopAppBar(
             title = {
                 Text(stringResource(R.string.title_popular))

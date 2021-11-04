@@ -3,6 +3,7 @@ package io.korostenskyi.chestnut.presentation.screen.favorites
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.GridCells
 import androidx.compose.foundation.lazy.LazyVerticalGrid
@@ -29,7 +30,10 @@ import io.korostenskyi.chestnut.presentation.composables.MovieCard
 fun FavoritesScreen(viewModel: FavoritesViewModel = hiltViewModel()) {
     val listState = rememberLazyListState()
     val movies = viewModel.favoriteMovies.collectAsState(initial = emptyList()).value
-    Column {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+    ) {
         TopAppBar(
             title = {
                 Text(text = stringResource(id = R.string.title_favorites))
