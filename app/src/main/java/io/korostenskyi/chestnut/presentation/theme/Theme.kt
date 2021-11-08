@@ -53,7 +53,10 @@ fun ChestnutTheme(
         ApplicationSettings.Theme.LIGHT -> LightColorPalette
         ApplicationSettings.Theme.PURPLE -> PurpleColorPalette
     }
-    uiController.setStatusBarColor(color = colors.primarySurface)
+    with(uiController) {
+        setStatusBarColor(color = colors.primarySurface)
+        setNavigationBarColor(color = colors.primarySurface)
+    }
     MaterialTheme(
         colors = colors,
         typography = Typography,
