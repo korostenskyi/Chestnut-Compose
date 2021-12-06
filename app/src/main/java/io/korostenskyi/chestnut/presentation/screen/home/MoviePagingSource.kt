@@ -4,9 +4,11 @@ import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import io.korostenskyi.chestnut.domain.interactor.MovieInteractor
 import io.korostenskyi.chestnut.domain.model.Movie
+import kotlinx.coroutines.flow.MutableStateFlow
 
 class MoviePagingSource(
-    private val movieInteractor: MovieInteractor
+    private val movieInteractor: MovieInteractor,
+    private val isLoadingFlow: MutableStateFlow<Boolean>
 ) : PagingSource<Int, Movie>() {
 
     override fun getRefreshKey(state: PagingState<Int, Movie>): Int? {
@@ -18,11 +20,13 @@ class MoviePagingSource(
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Movie> {
         return try {
             val nextPage = params.key ?: 1
-            val movies = movieInteractor.retrievePopularMovies(nextPage)
+            isLoadingFlow.emit(true)
+            val page = movieInteractor.retrievePopularMovies(nextPage)
+            isLoadingFlow.emit(false)
             LoadResult.Page(
-                data = movies,
+                data = page.movies,
                 prevKey = if (nextPage == 1) null else nextPage - 1,
-                nextKey = nextPage + 1
+                nextKey = if (nextPage == page.totalPages) null else nextPage + 1
             )
         } catch (e: Exception) {
             LoadResult.Error(e)

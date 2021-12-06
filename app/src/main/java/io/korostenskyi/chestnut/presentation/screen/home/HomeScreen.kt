@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.GridCells
 import androidx.compose.foundation.lazy.LazyVerticalGrid
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
@@ -16,6 +17,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.stringResource
@@ -23,6 +26,9 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
+import com.google.accompanist.swiperefresh.SwipeRefresh
+import com.google.accompanist.swiperefresh.SwipeRefreshIndicator
+import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import io.korostenskyi.chestnut.R
 import io.korostenskyi.chestnut.extensions.items
 import io.korostenskyi.chestnut.presentation.composables.ErrorItem
@@ -34,6 +40,7 @@ import io.korostenskyi.chestnut.presentation.composables.MovieCard
 fun HomeScreen(viewModel: HomeViewModel = hiltViewModel()) {
     val listState = rememberLazyListState()
     val movies = viewModel.moviesStateFlow.collectAsLazyPagingItems()
+    val isRefreshing by viewModel.isRefreshing.collectAsState()
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -59,27 +66,41 @@ fun HomeScreen(viewModel: HomeViewModel = hiltViewModel()) {
                 }
             }
         )
-        LazyVerticalGrid(
-            cells = GridCells.Adaptive(minSize = 128.dp),
-            state = listState,
-            modifier = Modifier
-                .padding(horizontal = 2.dp)
-        ) {
-            items(movies) { movie ->
-                MovieCard(
-                    movie = movie!!,
-                    onClick = { viewModel.openDetailsScreen(it.id) },
-                    modifier = Modifier
-                        .padding(1.dp)
+        SwipeRefresh(
+            state = rememberSwipeRefreshState(isRefreshing),
+            onRefresh = { movies.refresh() },
+            indicator = { state, trigger ->
+                SwipeRefreshIndicator(
+                    state = state,
+                    refreshTriggerDistance = trigger,
+                    scale = true,
+                    backgroundColor = MaterialTheme.colors.primary,
+                    shape = CircleShape,
                 )
             }
-            movies.apply {
-                when (loadState.append) {
-                    is LoadState.Loading -> {
-                        item { LoadingItem() }
-                    }
-                    is LoadState.Error -> {
-                        item { ErrorItem(onRetryClick = { retry() }) }
+        ) {
+            LazyVerticalGrid(
+                cells = GridCells.Adaptive(minSize = 128.dp),
+                state = listState,
+                modifier = Modifier
+                    .padding(horizontal = 2.dp)
+            ) {
+                items(movies) { movie ->
+                    MovieCard(
+                        movie = movie!!,
+                        onClick = { viewModel.openDetailsScreen(it.id) },
+                        modifier = Modifier
+                            .padding(1.dp)
+                    )
+                }
+                movies.apply {
+                    when (loadState.append) {
+                        is LoadState.Loading -> {
+                            item { LoadingItem() }
+                        }
+                        is LoadState.Error -> {
+                            item { ErrorItem(onRetryClick = { retry() }) }
+                        }
                     }
                 }
             }

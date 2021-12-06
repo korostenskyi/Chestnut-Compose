@@ -2,8 +2,10 @@ package io.korostenskyi.chestnut.data.network.mapper
 
 import io.korostenskyi.chestnut.data.network.model.MovieInfoResponse
 import io.korostenskyi.chestnut.data.network.model.MovieResponse
+import io.korostenskyi.chestnut.data.network.model.PopularMoviesResponse
 import io.korostenskyi.chestnut.domain.model.Movie
 import io.korostenskyi.chestnut.domain.model.MovieInfo
+import io.korostenskyi.chestnut.domain.model.MoviePage
 import javax.inject.Inject
 
 class ApiResponseMapper @Inject constructor() {
@@ -13,7 +15,7 @@ class ApiResponseMapper @Inject constructor() {
             id = response.id,
             title = response.title,
             description = response.description,
-            posterPath = "$POSTER_BASE_URL${response.posterPath}",
+            posterPath = response.posterPath?.let { "$POSTER_BASE_URL$it" },
             backdropPath = response.backdropPath?.let { "$BACKDROP_BASE_URL$it" },
             isAdult = response.isAdult,
             voteAverage = response.voteAverage,
@@ -26,7 +28,7 @@ class ApiResponseMapper @Inject constructor() {
             id = response.id,
             title = response.title,
             description = response.description,
-            posterPath = "$POSTER_BASE_URL${response.posterPath}",
+            posterPath = response.posterPath?.let { "$POSTER_BASE_URL$it" },
             backdropPath = response.backdropPath?.let { "$BACKDROP_BASE_URL$it" },
             isAdult = response.isAdult,
             voteAverage = response.voteAverage,
@@ -35,12 +37,20 @@ class ApiResponseMapper @Inject constructor() {
         )
     }
 
+    fun map(response: PopularMoviesResponse): MoviePage {
+        return MoviePage(
+            page = response.page,
+            totalPages = response.totalPages,
+            movies = response.movies.map(::map)
+        )
+    }
+
     fun mapToMovie(response: MovieInfoResponse): Movie {
         return Movie(
             id = response.id,
             title = response.title,
             description = response.description,
-            posterPath = "$POSTER_BASE_URL${response.posterPath}",
+            posterPath = response.posterPath?.let { "$POSTER_BASE_URL$it" },
             backdropPath = response.backdropPath?.let { "$BACKDROP_BASE_URL$it" },
             isAdult = response.isAdult,
             voteAverage = response.voteAverage,
