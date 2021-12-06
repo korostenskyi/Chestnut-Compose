@@ -21,12 +21,12 @@ class MoviePagingSource(
         return try {
             val nextPage = params.key ?: 1
             isLoadingFlow.emit(true)
-            val movies = movieInteractor.retrievePopularMovies(nextPage)
+            val page = movieInteractor.retrievePopularMovies(nextPage)
             isLoadingFlow.emit(false)
             LoadResult.Page(
-                data = movies,
+                data = page.movies,
                 prevKey = if (nextPage == 1) null else nextPage - 1,
-                nextKey = nextPage + 1
+                nextKey = if (nextPage == page.totalPages) null else nextPage + 1
             )
         } catch (e: Exception) {
             LoadResult.Error(e)
