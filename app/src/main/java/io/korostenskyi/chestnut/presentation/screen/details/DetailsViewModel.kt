@@ -15,7 +15,6 @@ import io.korostenskyi.chestnut.presentation.utils.IntentUtils
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
 class DetailsViewModel @AssistedInject constructor(

@@ -15,6 +15,7 @@
     <string name="details_description">Description</string>
     <string name="details_release_date">Release Date</string>
     <string name="details_average_rating">Average Rating</string>
+    <string name="details_cast">Cast</string>
 
     <!-- Settings Screen -->
     <string name="settings_theme">Theme</string>

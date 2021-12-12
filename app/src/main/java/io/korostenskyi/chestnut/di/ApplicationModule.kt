@@ -1,6 +1,8 @@
 package io.korostenskyi.chestnut.di
 
 import android.content.Context
+import coil.ImageLoader
+import coil.util.DebugLogger
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -10,6 +12,7 @@ import io.korostenskyi.chestnut.BuildConfig
 import io.korostenskyi.chestnut.domain.model.BuildParams
 import io.korostenskyi.chestnut.presentation.navigation.NavigationFlow
 import io.korostenskyi.chestnut.presentation.utils.IntentUtils
+import okhttp3.OkHttpClient
 import javax.inject.Singleton
 
 @Module
@@ -42,4 +45,20 @@ object ApplicationModule {
     fun provideIntentUtils(
         @ApplicationContext context: Context
     ): IntentUtils = IntentUtils(context)
+
+    @Provides
+    @Singleton
+    fun provideImageLoader(
+        @ApplicationContext context: Context,
+        buildParams: BuildParams,
+        okHttpClient: OkHttpClient
+    ): ImageLoader {
+        return ImageLoader.Builder(context).apply {
+            if (buildParams.isDebug) {
+                logger(DebugLogger())
+            }
+            okHttpClient(okHttpClient)
+        }
+        .build()
+    }
 }

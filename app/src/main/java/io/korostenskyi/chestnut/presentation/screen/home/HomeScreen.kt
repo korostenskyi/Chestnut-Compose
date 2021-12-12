@@ -86,12 +86,14 @@ fun HomeScreen(viewModel: HomeViewModel = hiltViewModel()) {
                     .padding(horizontal = 2.dp)
             ) {
                 items(movies) { movie ->
-                    MovieCard(
-                        movie = movie!!,
-                        onClick = { viewModel.openDetailsScreen(it.id) },
-                        modifier = Modifier
-                            .padding(1.dp)
-                    )
+                    movie?.let {
+                        MovieCard(
+                            movie = it,
+                            onClick = { viewModel.openDetailsScreen(it.id) },
+                            modifier = Modifier
+                                .padding(1.dp)
+                        )
+                    }
                 }
                 movies.apply {
                     when (loadState.append) {
