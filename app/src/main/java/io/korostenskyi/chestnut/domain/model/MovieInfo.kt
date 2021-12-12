@@ -9,5 +9,5 @@ data class MovieInfo(
     val isAdult: Boolean,
     val voteAverage: Double,
     val voteCount: Int,
-    val releaseDate: String
+    val releaseDate: String? = null
 )

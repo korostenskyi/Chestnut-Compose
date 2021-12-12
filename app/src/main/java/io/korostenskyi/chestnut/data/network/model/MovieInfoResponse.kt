@@ -13,5 +13,5 @@ data class MovieInfoResponse(
     @SerialName("adult") val isAdult: Boolean,
     @SerialName("vote_average") val voteAverage: Double,
     @SerialName("vote_count") val voteCount: Int,
-    @SerialName("release_date") val releaseDate: String
+    @SerialName("release_date") val releaseDate: String? = null
 )

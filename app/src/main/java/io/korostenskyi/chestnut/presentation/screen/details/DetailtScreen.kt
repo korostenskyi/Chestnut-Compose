@@ -127,17 +127,19 @@ fun DetailsView(
                 modifier = Modifier
                     .fillMaxWidth()
             ) {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier.weight(1f)
-                ) {
-                    Icon(
-                        imageVector = Icons.Default.DateRange,
-                        contentDescription = stringResource(id = R.string.details_release_date),
-                        tint = MaterialTheme.colors.onBackground
-                    )
-                    Spacer(modifier = Modifier.size(4.dp))
-                    Text(text = movie.releaseDate)
+                movie.releaseDate?.let {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier.weight(1f)
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.DateRange,
+                            contentDescription = stringResource(id = R.string.details_release_date),
+                            tint = MaterialTheme.colors.onBackground
+                        )
+                        Spacer(modifier = Modifier.size(4.dp))
+                        Text(text = it)
+                    }
                 }
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
