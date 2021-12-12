@@ -8,10 +8,10 @@ data class MovieInfoResponse(
     @SerialName("id") val id: Int,
     @SerialName("title") val title: String,
     @SerialName("overview") val description: String,
-    @SerialName("poster_path") val posterPath: String,
+    @SerialName("poster_path") val posterPath: String? = null,
     @SerialName("backdrop_path") val backdropPath: String? = null,
     @SerialName("adult") val isAdult: Boolean,
     @SerialName("vote_average") val voteAverage: Double,
     @SerialName("vote_count") val voteCount: Int,
-    @SerialName("release_date") val releaseDate: String
+    @SerialName("release_date") val releaseDate: String? = null
 )

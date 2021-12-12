@@ -2,6 +2,10 @@ package io.korostenskyi.chestnut.presentation.screen.details
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
@@ -13,29 +17,31 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import coil.compose.rememberImagePainter
-import coil.size.OriginalSize
-import coil.size.Scale
+import coil.compose.AsyncImage
 import io.korostenskyi.chestnut.R
-import io.korostenskyi.chestnut.domain.model.MovieInfo
+import io.korostenskyi.chestnut.domain.model.MovieDetails
+import io.korostenskyi.chestnut.presentation.composables.ActorCard
 import io.korostenskyi.chestnut.presentation.composables.ExpandableText
 import io.korostenskyi.chestnut.presentation.composables.LoadingView
 
 @Composable
 fun DetailsScreen(viewModel: DetailsViewModel) {
     val state = viewModel.detailsStateFlow.collectAsState().value
-    Column {
+    Column(
+        modifier = Modifier
+            .verticalScroll(rememberScrollState())
+    ) {
         TopAppBar(
             title = {
                 if (state is DetailsState.Success) {
-                    Text(state.movieInfo.title)
+                    Text(state.details.info.title)
                 } else {
                     Text(stringResource(R.string.title_details))
                 }
             },
             actions = {
                 if (state is DetailsState.Success) {
-                    IconButton(onClick = { viewModel.share(state.movieInfo) }) {
+                    IconButton(onClick = { viewModel.share(state.details.info) }) {
                         Image(
                             imageVector = Icons.Default.Share,
                             contentDescription = stringResource(id = R.string.action_share),
@@ -57,29 +63,26 @@ fun DetailsScreen(viewModel: DetailsViewModel) {
         when (state) {
             is DetailsState.Idle -> {}
             is DetailsState.Loading -> LoadingView(modifier = Modifier.fillMaxSize())
-            is DetailsState.Success -> DetailsView(state.movieInfo, viewModel)
+            is DetailsState.Success -> DetailsView(state.details, viewModel)
         }
     }
 }
 
 @Composable
 fun DetailsView(
-    movie: MovieInfo,
+    details: MovieDetails,
     viewModel: DetailsViewModel
 ) {
+    val (movie, credits) = details
     val isInFavorites = viewModel.favoritesFlow.collectAsState().value
     if (movie.backdropPath != null) {
-        Image(
-            painter = rememberImagePainter(
-                data = movie.backdropPath,
-                builder = {
-                    crossfade(true)
-                    scale(Scale.FIT)
-                    size(OriginalSize)
-                }
-            ),
+        AsyncImage(
+            model = movie.backdropPath,
             contentDescription = null,
-            contentScale = ContentScale.FillWidth,
+            contentScale = ContentScale.FillBounds,
+            loading = {
+                CircularProgressIndicator()
+            },
             modifier = Modifier
                 .fillMaxWidth()
         )
@@ -124,17 +127,19 @@ fun DetailsView(
                 modifier = Modifier
                     .fillMaxWidth()
             ) {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier.weight(1f)
-                ) {
-                    Icon(
-                        imageVector = Icons.Default.DateRange,
-                        contentDescription = stringResource(id = R.string.details_release_date),
-                        tint = MaterialTheme.colors.onBackground
-                    )
-                    Spacer(modifier = Modifier.size(4.dp))
-                    Text(text = movie.releaseDate)
+                movie.releaseDate?.let {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier.weight(1f)
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.DateRange,
+                            contentDescription = stringResource(id = R.string.details_release_date),
+                            tint = MaterialTheme.colors.onBackground
+                        )
+                        Spacer(modifier = Modifier.size(4.dp))
+                        Text(text = it)
+                    }
                 }
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
@@ -151,19 +156,36 @@ fun DetailsView(
             }
         }
         Divider(color = MaterialTheme.colors.onBackground)
+        if (movie.description.isNotBlank()) {
+            Column(
+                modifier = Modifier
+                    .padding(vertical = 8.dp)
+            ) {
+                Text(
+                    text = stringResource(id = R.string.details_description),
+                    style = MaterialTheme.typography.h5
+                )
+                ExpandableText(
+                    text = movie.description,
+                    overflowText = stringResource(id = R.string.label_see_more),
+                    minimumLines = 3
+                )
+            }
+            Divider(color = MaterialTheme.colors.onBackground)
+        }
         Column(
             modifier = Modifier
                 .padding(vertical = 8.dp)
         ) {
             Text(
-                text = stringResource(id = R.string.details_description),
+                text = stringResource(id = R.string.details_cast),
                 style = MaterialTheme.typography.h5
             )
-            ExpandableText(
-                text = movie.description,
-                overflowText = stringResource(id = R.string.label_see_more),
-                minimumLines = 3
-            )
+            LazyRow {
+                items(credits.cast) { actor ->
+                    ActorCard(actor = actor)
+                }
+            }
         }
         Divider(color = MaterialTheme.colors.onBackground)
     }

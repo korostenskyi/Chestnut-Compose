@@ -4,8 +4,7 @@ import io.korostenskyi.chestnut.data.local.AppDatabase
 import io.korostenskyi.chestnut.data.local.model.FavoriteMovieRoom
 import io.korostenskyi.chestnut.data.network.MovieNetworkDataSource
 import io.korostenskyi.chestnut.data.network.mapper.ApiResponseMapper
-import io.korostenskyi.chestnut.domain.model.Movie
-import io.korostenskyi.chestnut.domain.model.MovieInfo
+import io.korostenskyi.chestnut.domain.model.*
 import io.korostenskyi.chestnut.domain.repository.MovieRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -30,12 +29,14 @@ class MovieRepositoryImpl @Inject constructor(
     }
 
     // TODO: Handle errors
-    override suspend fun retrievePopularMovies(page: Int): List<Movie> {
-        return movieNetworkDataSource.fetchPopularMovies(page, language).movies.map(mapper::map)
+    override suspend fun retrievePopularMovies(page: Int): MoviePage {
+        return movieNetworkDataSource.fetchPopularMovies(page, language).let(mapper::map)
     }
 
-    override suspend fun retrieveMovieInfo(id: Int): MovieInfo {
-        return movieNetworkDataSource.fetchMovieDetails(id, language).let(mapper::map)
+    override suspend fun retrieveMovieInfo(id: Int): MovieDetails {
+        val info = movieNetworkDataSource.fetchMovieDetails(id, language).let(mapper::map)
+        val credits = movieNetworkDataSource.fetchMovieCredits(id, language).let(mapper::map)
+        return MovieDetails(info, credits)
     }
 
     override suspend fun addToFavorites(id: Int) {
