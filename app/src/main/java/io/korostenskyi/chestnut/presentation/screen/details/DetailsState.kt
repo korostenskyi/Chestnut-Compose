@@ -1,6 +1,6 @@
 package io.korostenskyi.chestnut.presentation.screen.details
 
-import io.korostenskyi.chestnut.domain.model.MovieInfo
+import io.korostenskyi.chestnut.domain.model.MovieDetails
 
 sealed class DetailsState {
 
@@ -8,5 +8,5 @@ sealed class DetailsState {
 
     object Loading : DetailsState()
 
-    data class Success(val movieInfo: MovieInfo) : DetailsState()
+    data class Success(val details: MovieDetails) : DetailsState()
 }

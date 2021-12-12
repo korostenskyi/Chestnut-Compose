@@ -1,8 +1,10 @@
 package io.korostenskyi.chestnut.data.network.mapper
 
+import io.korostenskyi.chestnut.data.network.model.CreditsResponse
 import io.korostenskyi.chestnut.data.network.model.MovieInfoResponse
 import io.korostenskyi.chestnut.data.network.model.MovieResponse
 import io.korostenskyi.chestnut.data.network.model.PopularMoviesResponse
+import io.korostenskyi.chestnut.domain.model.Credits
 import io.korostenskyi.chestnut.domain.model.Movie
 import io.korostenskyi.chestnut.domain.model.MovieInfo
 import io.korostenskyi.chestnut.domain.model.MoviePage
@@ -58,9 +60,25 @@ class ApiResponseMapper @Inject constructor() {
         )
     }
 
+    fun map(response: CreditsResponse): Credits {
+        return Credits(
+            cast = response.cast.map(::map),
+            crew = response.crew.map(::map)
+        )
+    }
+
+    fun map(response: CreditsResponse.PersonResponse): Credits.Person {
+        return Credits.Person(
+            name = response.name,
+            photoPath = response.photoPath?.let { "$PROFILE_PICTURE_BASE_URL$it" },
+            character = response.character
+        )
+    }
+
     companion object {
         private const val IMAGE_BASE_URL = "https://image.tmdb.org/t/p"
         private const val POSTER_BASE_URL = "$IMAGE_BASE_URL/w185_and_h278_bestv2"
         private const val BACKDROP_BASE_URL = "$IMAGE_BASE_URL/w1280"
+        private const val PROFILE_PICTURE_BASE_URL = "$IMAGE_BASE_URL/h632"
     }
 }

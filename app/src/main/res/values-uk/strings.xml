@@ -16,6 +16,7 @@
     <string name="details_description">Опис</string>
     <string name="details_release_date">Дата виходу</string>
     <string name="details_average_rating">Середня оцінка</string>
+    <string name="details_cast">Актори</string>
 
     <!-- Settings Screen -->
     <string name="settings_theme">Тема</string>

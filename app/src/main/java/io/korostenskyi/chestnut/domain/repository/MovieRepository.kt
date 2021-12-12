@@ -1,8 +1,6 @@
 package io.korostenskyi.chestnut.domain.repository
 
-import io.korostenskyi.chestnut.domain.model.Movie
-import io.korostenskyi.chestnut.domain.model.MovieInfo
-import io.korostenskyi.chestnut.domain.model.MoviePage
+import io.korostenskyi.chestnut.domain.model.*
 import kotlinx.coroutines.flow.Flow
 
 interface MovieRepository {
@@ -11,7 +9,7 @@ interface MovieRepository {
 
     suspend fun retrievePopularMovies(page: Int): MoviePage
 
-    suspend fun retrieveMovieInfo(id: Int): MovieInfo
+    suspend fun retrieveMovieInfo(id: Int): MovieDetails
 
     suspend fun retrieveMoviesByIds(ids: List<Int>): List<Movie>
 

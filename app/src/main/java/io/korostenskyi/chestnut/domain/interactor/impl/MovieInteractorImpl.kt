@@ -2,7 +2,7 @@ package io.korostenskyi.chestnut.domain.interactor.impl
 
 import io.korostenskyi.chestnut.domain.interactor.MovieInteractor
 import io.korostenskyi.chestnut.domain.model.Movie
-import io.korostenskyi.chestnut.domain.model.MovieInfo
+import io.korostenskyi.chestnut.domain.model.MovieDetails
 import io.korostenskyi.chestnut.domain.model.MoviePage
 import io.korostenskyi.chestnut.domain.repository.MovieRepository
 import kotlinx.coroutines.flow.Flow
@@ -18,7 +18,7 @@ class MovieInteractorImpl @Inject constructor(
         return repository.retrievePopularMovies(page)
     }
 
-    override suspend fun retrieveMovieInfo(id: Int): MovieInfo {
+    override suspend fun retrieveMovieInfo(id: Int): MovieDetails {
         return repository.retrieveMovieInfo(id)
     }
 
