@@ -5,19 +5,20 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.CircularProgressIndicator
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
+import com.google.android.material.progressindicator.CircularProgressIndicator
 import io.korostenskyi.chestnut.domain.model.Credits
 
 @Composable
@@ -27,7 +28,7 @@ fun ActorCard(
 ) {
     Surface(
         modifier = modifier
-            .background(color = MaterialTheme.colors.surface)
+            .background(color = MaterialTheme.colorScheme.surface)
             .width(100.dp)
             .clip(RoundedCornerShape(12f))
             .padding(horizontal = 4.dp)
@@ -39,7 +40,7 @@ fun ActorCard(
                 AsyncImage(
                     model = actor.photoPath,
                     loading = {
-                        CircularProgressIndicator()
+                        CircularProgressIndicator(LocalContext.current)
                     },
                     contentScale = ContentScale.Crop,
                     contentDescription = null,
@@ -62,12 +63,12 @@ fun ActorCard(
             ) {
                 Text(
                     text = actor.name,
-                    style = MaterialTheme.typography.body1
+                    style = MaterialTheme.typography.bodyMedium
                 )
                 actor.character?.let {
                     Text(
                         text = it,
-                        style = MaterialTheme.typography.caption
+                        style = MaterialTheme.typography.bodySmall
                     )
                 }
             }

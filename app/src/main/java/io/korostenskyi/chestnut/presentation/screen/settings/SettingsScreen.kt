@@ -3,7 +3,8 @@ package io.korostenskyi.chestnut.presentation.screen.settings
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.*
+import androidx.compose.material.TabRowDefaults.Divider
+import androidx.compose.material3.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.*
@@ -26,7 +27,7 @@ fun SettingsScreen(viewModel: SettingsViewModel = hiltViewModel()) {
         modifier = Modifier
             .fillMaxSize()
     ) {
-        TopAppBar(
+        SmallTopAppBar(
             title = {
                 Text(text = stringResource(id = R.string.title_settings))
             },
@@ -35,7 +36,7 @@ fun SettingsScreen(viewModel: SettingsViewModel = hiltViewModel()) {
                     Image(
                         imageVector = Icons.Default.ArrowBack,
                         contentDescription = stringResource(id = R.string.action_back),
-                        colorFilter = ColorFilter.tint(MaterialTheme.colors.onSurface)
+                        colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onSurface)
                     )
                 }
             }
@@ -48,19 +49,19 @@ fun SettingsScreen(viewModel: SettingsViewModel = hiltViewModel()) {
                 openThemeDialog = true
             }
         )
-        Divider(color = MaterialTheme.colors.onBackground)
+        Divider(color = MaterialTheme.colorScheme.onBackground)
         SettingsButton(
             text = {
                 Text(
                     text = stringResource(id = R.string.action_reset),
-                    color = MaterialTheme.colors.error
+                    color = MaterialTheme.colorScheme.error
                 )
             },
             onClick = {
                 openResetConfirmationDialog = true
             }
         )
-        Divider(color = MaterialTheme.colors.onBackground)
+        Divider(color = MaterialTheme.colorScheme.onBackground)
         if (openThemeDialog) {
             AlertDialog(
                 onDismissRequest = { openThemeDialog = false },
@@ -87,9 +88,9 @@ fun SettingsScreen(viewModel: SettingsViewModel = hiltViewModel()) {
                                 RadioButton(
                                     selected = selected,
                                     colors = RadioButtonDefaults.colors(
-                                        selectedColor = MaterialTheme.colors.secondary,
-                                        unselectedColor = MaterialTheme.colors.onBackground.copy(alpha = 0.6f),
-                                        disabledColor = MaterialTheme.colors.onBackground.copy(alpha = ContentAlpha.disabled)
+                                        selectedColor = MaterialTheme.colorScheme.secondary,
+                                        unselectedColor = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.6f),
+                                        //disabledColor = MaterialTheme.colors.onBackground.copy(alpha = ContentAlpha.disabled)
                                     ),
                                     onClick = {
                                         openThemeDialog = false
@@ -102,7 +103,7 @@ fun SettingsScreen(viewModel: SettingsViewModel = hiltViewModel()) {
                         }
                     }
                 },
-                buttons = { }
+                confirmButton = { }
             )
         }
         if (openResetConfirmationDialog) {
@@ -114,31 +115,26 @@ fun SettingsScreen(viewModel: SettingsViewModel = hiltViewModel()) {
                 text = {
                     Text(text = stringResource(id = R.string.settings_reset_confirmation_description))
                 },
-                buttons = {
-                    Row(
-                        horizontalArrangement = Arrangement.SpaceBetween,
-                        modifier = Modifier
-                            .padding(8.dp)
-                            .fillMaxWidth()
+                confirmButton = {
+                    Button(
+                        colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.error),
+                        onClick = {
+                            openResetConfirmationDialog = false
+                            viewModel.reset()
+                        }
                     ) {
-                        Button(
-                            colors = ButtonDefaults.buttonColors(backgroundColor = MaterialTheme.colors.secondary),
-                            onClick = { openResetConfirmationDialog = false }
-                        ) {
-                            Text(text = stringResource(id = R.string.label_no))
-                        }
-                        Button(
-                            colors = ButtonDefaults.buttonColors(backgroundColor = MaterialTheme.colors.error),
-                            onClick = {
-                                openResetConfirmationDialog = false
-                                viewModel.reset()
-                            }
-                        ) {
-                            Text(
-                                text = stringResource(id = R.string.label_yes),
-                                color = MaterialTheme.colors.onError
-                            )
-                        }
+                        Text(
+                            text = stringResource(id = R.string.label_yes),
+                            color = MaterialTheme.colorScheme.onError
+                        )
+                    }
+                },
+                dismissButton = {
+                    Button(
+                        colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.secondary),
+                        onClick = { openResetConfirmationDialog = false }
+                    ) {
+                        Text(text = stringResource(id = R.string.label_no))
                     }
                 }
             )
