@@ -24,7 +24,6 @@
     <string name="settings_theme_system">Системна</string>
     <string name="settings_theme_light">Світла</string>
     <string name="settings_theme_dark">Темна</string>
-    <string name="settings_theme_purple">Фіолетова</string>
     <string name="settings_reset_confirmation_title">Ви впевнені?</string>
     <string name="settings_reset_confirmation_description">Ви дійсно хочете скинути налаштування?</string>
 

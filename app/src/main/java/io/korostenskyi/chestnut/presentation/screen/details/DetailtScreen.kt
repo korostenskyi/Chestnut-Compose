@@ -6,7 +6,9 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.*
+import androidx.compose.material.CircularProgressIndicator
+import androidx.compose.material.Divider
+import androidx.compose.material3.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.Composable
@@ -29,9 +31,10 @@ fun DetailsScreen(viewModel: DetailsViewModel) {
     val state = viewModel.detailsStateFlow.collectAsState().value
     Column(
         modifier = Modifier
+            .fillMaxSize()
             .verticalScroll(rememberScrollState())
     ) {
-        TopAppBar(
+        SmallTopAppBar(
             title = {
                 if (state is DetailsState.Success) {
                     Text(state.details.info.title)
@@ -45,7 +48,7 @@ fun DetailsScreen(viewModel: DetailsViewModel) {
                         Image(
                             imageVector = Icons.Default.Share,
                             contentDescription = stringResource(id = R.string.action_share),
-                            colorFilter = ColorFilter.tint(MaterialTheme.colors.onSurface)
+                            colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onSurface)
                         )
                     }
                 }
@@ -55,15 +58,15 @@ fun DetailsScreen(viewModel: DetailsViewModel) {
                     Image(
                         imageVector = Icons.Default.ArrowBack,
                         contentDescription = stringResource(id = R.string.action_back),
-                        colorFilter = ColorFilter.tint(MaterialTheme.colors.onSurface)
+                        colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onSurface)
                     )
                 }
             }
         )
         when (state) {
             is DetailsState.Idle -> {}
-            is DetailsState.Loading -> LoadingView(modifier = Modifier.fillMaxSize())
-            is DetailsState.Success -> DetailsView(state.details, viewModel)
+            is DetailsState.Loading -> LoadingView()
+            is DetailsState.Success -> DetailsView(details = state.details, viewModel = viewModel)
         }
     }
 }
@@ -81,7 +84,9 @@ fun DetailsView(
             contentDescription = null,
             contentScale = ContentScale.FillBounds,
             loading = {
-                CircularProgressIndicator()
+                CircularProgressIndicator(
+                    color = MaterialTheme.colorScheme.primary
+                )
             },
             modifier = Modifier
                 .fillMaxWidth()
@@ -99,7 +104,7 @@ fun DetailsView(
             Row {
                 Text(
                     text = movie.title,
-                    style = MaterialTheme.typography.h4,
+                    style = MaterialTheme.typography.headlineSmall,
                     modifier = Modifier
                         .weight(12f)
                 )
@@ -112,13 +117,13 @@ fun DetailsView(
                         Image(
                             imageVector = Icons.Default.Favorite,
                             contentDescription = stringResource(id = R.string.action_remove_from_favorites),
-                            colorFilter = ColorFilter.tint(color = MaterialTheme.colors.onBackground)
+                            colorFilter = ColorFilter.tint(color = MaterialTheme.colorScheme.onBackground)
                         )
                     } else {
                         Image(
                             imageVector = Icons.Default.FavoriteBorder,
                             contentDescription = stringResource(id = R.string.action_remove_from_favorites),
-                            colorFilter = ColorFilter.tint(color = MaterialTheme.colors.onBackground)
+                            colorFilter = ColorFilter.tint(color = MaterialTheme.colorScheme.onBackground)
                         )
                     }
                 }
@@ -135,7 +140,7 @@ fun DetailsView(
                         Icon(
                             imageVector = Icons.Default.DateRange,
                             contentDescription = stringResource(id = R.string.details_release_date),
-                            tint = MaterialTheme.colors.onBackground
+                            tint = MaterialTheme.colorScheme.onBackground
                         )
                         Spacer(modifier = Modifier.size(4.dp))
                         Text(text = it)
@@ -148,14 +153,14 @@ fun DetailsView(
                     Icon(
                         imageVector = Icons.Default.Star,
                         contentDescription = stringResource(id = R.string.details_average_rating),
-                        tint = MaterialTheme.colors.onBackground
+                        tint = MaterialTheme.colorScheme.onBackground
                     )
                     Spacer(modifier = Modifier.size(4.dp))
                     Text(text = movie.voteAverage.toString())
                 }
             }
         }
-        Divider(color = MaterialTheme.colors.onBackground)
+        Divider(color = MaterialTheme.colorScheme.onBackground)
         if (movie.description.isNotBlank()) {
             Column(
                 modifier = Modifier
@@ -163,7 +168,7 @@ fun DetailsView(
             ) {
                 Text(
                     text = stringResource(id = R.string.details_description),
-                    style = MaterialTheme.typography.h5
+                    style = MaterialTheme.typography.headlineSmall
                 )
                 ExpandableText(
                     text = movie.description,
@@ -171,7 +176,7 @@ fun DetailsView(
                     minimumLines = 3
                 )
             }
-            Divider(color = MaterialTheme.colors.onBackground)
+            Divider(color = MaterialTheme.colorScheme.onBackground)
         }
         Column(
             modifier = Modifier
@@ -179,7 +184,7 @@ fun DetailsView(
         ) {
             Text(
                 text = stringResource(id = R.string.details_cast),
-                style = MaterialTheme.typography.h5
+                style = MaterialTheme.typography.headlineSmall
             )
             LazyRow {
                 items(credits.cast) { actor ->
@@ -187,6 +192,5 @@ fun DetailsView(
                 }
             }
         }
-        Divider(color = MaterialTheme.colors.onBackground)
     }
 }
