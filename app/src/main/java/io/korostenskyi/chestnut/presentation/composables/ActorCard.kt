@@ -5,6 +5,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.MaterialTheme
@@ -15,10 +16,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
-import com.google.android.material.progressindicator.CircularProgressIndicator
 import io.korostenskyi.chestnut.domain.model.Credits
 
 @Composable
@@ -40,7 +39,9 @@ fun ActorCard(
                 AsyncImage(
                     model = actor.photoPath,
                     loading = {
-                        CircularProgressIndicator(LocalContext.current)
+                        CircularProgressIndicator(
+                            color = MaterialTheme.colorScheme.primary
+                        )
                     },
                     contentScale = ContentScale.Crop,
                     contentDescription = null,
