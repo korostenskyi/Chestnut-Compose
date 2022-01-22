@@ -9,13 +9,10 @@ import androidx.compose.foundation.lazy.GridCells
 import androidx.compose.foundation.lazy.LazyVerticalGrid
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.IconButton
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
-import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -45,7 +42,7 @@ fun HomeScreen(viewModel: HomeViewModel = hiltViewModel()) {
         modifier = Modifier
             .fillMaxSize()
     ) {
-        TopAppBar(
+        SmallTopAppBar(
             title = {
                 Text(stringResource(R.string.title_popular))
             },
@@ -54,14 +51,14 @@ fun HomeScreen(viewModel: HomeViewModel = hiltViewModel()) {
                     Image(
                         imageVector = Icons.Default.Favorite,
                         contentDescription = stringResource(id = R.string.title_favorites),
-                        colorFilter = ColorFilter.tint(MaterialTheme.colors.onSurface)
+                        colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onSurface)
                     )
                 }
                 IconButton(onClick = { viewModel.openSettingsScreen() }) {
                     Image(
                         imageVector = Icons.Default.Settings,
                         contentDescription = stringResource(id = R.string.title_settings),
-                        colorFilter = ColorFilter.tint(MaterialTheme.colors.onSurface)
+                        colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onSurface)
                     )
                 }
             }
@@ -74,7 +71,7 @@ fun HomeScreen(viewModel: HomeViewModel = hiltViewModel()) {
                     state = state,
                     refreshTriggerDistance = trigger,
                     scale = true,
-                    backgroundColor = MaterialTheme.colors.primary,
+                    backgroundColor = MaterialTheme.colorScheme.primary,
                     shape = CircleShape,
                 )
             }

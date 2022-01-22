@@ -7,7 +7,6 @@ data class ApplicationSettings(
     enum class Theme {
         SYSTEM,
         LIGHT,
-        DARK,
-        PURPLE
+        DARK
     }
 }

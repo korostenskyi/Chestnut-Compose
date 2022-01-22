@@ -2,8 +2,8 @@ package io.korostenskyi.chestnut.presentation.composables
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.text.ClickableText
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -39,7 +39,7 @@ fun ExpandableText(
                 onClick = { expanded = !expanded },
                 style = TextStyle(
                     fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.colors.onBackground
+                    color = MaterialTheme.colorScheme.onBackground
                 )
             )
         }
