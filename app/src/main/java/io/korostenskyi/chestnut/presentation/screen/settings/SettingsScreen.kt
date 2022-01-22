@@ -3,7 +3,6 @@ package io.korostenskyi.chestnut.presentation.screen.settings
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.TabRowDefaults.Divider
 import androidx.compose.material3.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -49,7 +48,6 @@ fun SettingsScreen(viewModel: SettingsViewModel = hiltViewModel()) {
                 openThemeDialog = true
             }
         )
-        Divider(color = MaterialTheme.colorScheme.onBackground)
         SettingsButton(
             text = {
                 Text(
@@ -61,7 +59,6 @@ fun SettingsScreen(viewModel: SettingsViewModel = hiltViewModel()) {
                 openResetConfirmationDialog = true
             }
         )
-        Divider(color = MaterialTheme.colorScheme.onBackground)
         if (openThemeDialog) {
             AlertDialog(
                 onDismissRequest = { openThemeDialog = false },
@@ -75,7 +72,6 @@ fun SettingsScreen(viewModel: SettingsViewModel = hiltViewModel()) {
                                 ApplicationSettings.Theme.SYSTEM -> R.string.settings_theme_system
                                 ApplicationSettings.Theme.LIGHT -> R.string.settings_theme_light
                                 ApplicationSettings.Theme.DARK -> R.string.settings_theme_dark
-                                ApplicationSettings.Theme.PURPLE -> R.string.settings_theme_purple
                             }
                             val selected = (settings as? SettingsState.Loaded)?.settings?.theme == theme
                             Row(

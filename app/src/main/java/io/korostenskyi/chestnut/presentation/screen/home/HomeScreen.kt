@@ -42,7 +42,7 @@ fun HomeScreen(viewModel: HomeViewModel = hiltViewModel()) {
         modifier = Modifier
             .fillMaxSize()
     ) {
-        MediumTopAppBar(
+        SmallTopAppBar(
             title = {
                 Text(stringResource(R.string.title_popular))
             },

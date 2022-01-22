@@ -32,6 +32,7 @@ fun DetailsScreen(viewModel: DetailsViewModel) {
     val state = viewModel.detailsStateFlow.collectAsState().value
     Column(
         modifier = Modifier
+            .fillMaxSize()
             .verticalScroll(rememberScrollState())
     ) {
         SmallTopAppBar(
@@ -65,8 +66,8 @@ fun DetailsScreen(viewModel: DetailsViewModel) {
         )
         when (state) {
             is DetailsState.Idle -> {}
-            is DetailsState.Loading -> LoadingView(modifier = Modifier.fillMaxSize())
-            is DetailsState.Success -> DetailsView(state.details, viewModel)
+            is DetailsState.Loading -> LoadingView()
+            is DetailsState.Success -> DetailsView(details = state.details, viewModel = viewModel)
         }
     }
 }
@@ -190,6 +191,5 @@ fun DetailsView(
                 }
             }
         }
-        Divider(color = MaterialTheme.colorScheme.onBackground)
     }
 }
