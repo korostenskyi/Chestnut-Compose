@@ -38,4 +38,4 @@ jobs:
           RELEASE_STORE_PASSWORD:  ${{ secrets.RELEASE_STORE_PASSWORD }}
           RELEASE_KEY_PASSWORD:  ${{ secrets.RELEASE_KEY_PASSWORD }}
       - name: Build
-        run: bash ./gradlew assembleProductionRelease --stacktrace
+        run: bash ./gradlew assembleRelease --stacktrace
