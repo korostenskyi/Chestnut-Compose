@@ -17,7 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
-import coil.compose.AsyncImage
+import coil.compose.SubcomposeAsyncImage
 import io.korostenskyi.chestnut.domain.model.Credits
 
 @Composable
@@ -36,7 +36,7 @@ fun ActorCard(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             if (actor.photoPath != null) {
-                AsyncImage(
+                SubcomposeAsyncImage(
                     model = actor.photoPath,
                     loading = {
                         CircularProgressIndicator(
