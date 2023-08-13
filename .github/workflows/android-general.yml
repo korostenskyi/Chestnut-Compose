@@ -23,25 +23,9 @@ jobs:
           distribution: 'zulu'
           java-version: 17
           cache: 'gradle'
-      - name: Create .signing folder
-        run: mkdir .signing
-      - name: Decrypt release keystore
-        run: echo "$RELEASE_KEYSTORE_FILE" | base64 -d > .signing/zupa-release.jks
-        env:
-          RELEASE_KEYSTORE_FILE: ${{ secrets.RELEASE_KEYSTORE_FILE }}
       - name: Export debug configuration
         run: echo "TMBD_KEY=$DEBUG_TMBD_KEY" > config/dev.properties
         env:
           DEBUG_TMBD_KEY: ${{ secrets.DEBUG_TMBD_KEY }}
-      - name: Export release configuration
-        run: echo "TMBD_KEY=$RELEASE_TMBD_KEY" > config/release.properties
-        env:
-          RELEASE_TMBD_KEY: ${{ secrets.RELEASE_TMBD_KEY }}
-      - name: Export release keystore credentials
-        run: echo "keyAlias=$RELEASE_KEY_ALIAS" > .signing/release.properties && echo "storePassword=$RELEASE_STORE_PASSWORD" >> .signing/release.properties && echo "keyPassword=$RELEASE_KEY_PASSWORD" >> .signing/release.properties
-        env:
-          RELEASE_KEY_ALIAS:  ${{ secrets.RELEASE_KEY_ALIAS }}
-          RELEASE_STORE_PASSWORD:  ${{ secrets.RELEASE_STORE_PASSWORD }}
-          RELEASE_KEY_PASSWORD:  ${{ secrets.RELEASE_KEY_PASSWORD }}
       - name: Build
         run: bash ./gradlew assembleDebug --stacktrace

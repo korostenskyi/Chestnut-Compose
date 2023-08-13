@@ -23,10 +23,6 @@ jobs:
         run: echo "$RELEASE_KEYSTORE_FILE" | base64 -d > .signing/zupa-release.jks
         env:
           RELEASE_KEYSTORE_FILE: ${{ secrets.RELEASE_KEYSTORE_FILE }}
-      - name: Export debug configuration
-        run: echo "TMBD_KEY=$DEBUG_TMBD_KEY" > config/dev.properties
-        env:
-          DEBUG_TMBD_KEY: ${{ secrets.DEBUG_TMBD_KEY }}
       - name: Export release configuration
         run: echo "TMBD_KEY=$RELEASE_TMBD_KEY" > config/release.properties
         env:
