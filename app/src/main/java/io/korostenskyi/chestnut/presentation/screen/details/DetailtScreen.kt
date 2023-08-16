@@ -42,6 +42,7 @@ import io.korostenskyi.chestnut.domain.model.MovieDetails
 import io.korostenskyi.chestnut.presentation.composables.ActorCard
 import io.korostenskyi.chestnut.presentation.composables.ExpandableText
 import io.korostenskyi.chestnut.presentation.composables.LoadingView
+import kotlin.math.roundToInt
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -174,7 +175,7 @@ fun DetailsView(
                         tint = MaterialTheme.colorScheme.onBackground
                     )
                     Spacer(modifier = Modifier.size(4.dp))
-                    Text(text = movie.voteAverage.toString())
+                    Text(text = movie.voteAverage.roundToInt().toString())
                 }
             }
         }

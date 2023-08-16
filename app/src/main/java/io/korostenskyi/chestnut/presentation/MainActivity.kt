@@ -24,8 +24,11 @@ import io.korostenskyi.chestnut.presentation.navigation.RouterImpl
 import io.korostenskyi.chestnut.presentation.screen.details.DetailsScreen
 import io.korostenskyi.chestnut.presentation.screen.details.DetailsViewModel
 import io.korostenskyi.chestnut.presentation.screen.favorites.FavoritesScreen
+import io.korostenskyi.chestnut.presentation.screen.favorites.FavoritesViewModel
 import io.korostenskyi.chestnut.presentation.screen.home.HomeScreen
+import io.korostenskyi.chestnut.presentation.screen.home.HomeViewModel
 import io.korostenskyi.chestnut.presentation.screen.settings.SettingsScreen
+import io.korostenskyi.chestnut.presentation.screen.settings.SettingsViewModel
 import io.korostenskyi.chestnut.presentation.theme.ChestnutTheme
 import javax.inject.Inject
 
@@ -36,6 +39,9 @@ class MainActivity : ComponentActivity() {
     @Inject lateinit var detailsFactory: DetailsViewModel.DetailsAssistedFactory
 
     private val viewModel by viewModels<MainViewModel>()
+    private val favoritesViewModel by viewModels<FavoritesViewModel>()
+    private val homeViewModel by viewModels<HomeViewModel>()
+    private val settingsViewModel by viewModels<SettingsViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,10 +55,10 @@ class MainActivity : ComponentActivity() {
                 }
                 NavHost(navController = navController, startDestination = NavigationNames.Home) {
                     composable(NavigationNames.Home) {
-                        HomeScreen()
+                        HomeScreen(viewModel = homeViewModel)
                     }
                     composable(NavigationNames.Favorites) {
-                        FavoritesScreen()
+                        FavoritesScreen(viewModel = favoritesViewModel)
                     }
                     composable(
                         route = "${NavigationNames.Details}/{${NavigationNames.MovieIdArgument}}",
@@ -69,7 +75,7 @@ class MainActivity : ComponentActivity() {
                         DetailsScreen(viewModel)
                     }
                     composable(NavigationNames.Settings) {
-                        SettingsScreen()
+                        SettingsScreen(viewModel = settingsViewModel)
                     }
                 }
             }
