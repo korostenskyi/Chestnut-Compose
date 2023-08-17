@@ -66,6 +66,9 @@ android {
     }
     defaultConfig {
         buildConfigField("String", "TMDB_BASE_URL", "\"https://api.themoviedb.org/3/\"")
+        buildConfigField("String", "TMDB_POSTER_BASE_URL", "\"https://image.tmdb.org/t/p/w185_and_h278_bestv2/\"")
+        buildConfigField("String", "TMDB_BACKDROP_BASE_URL", "\"https://image.tmdb.org/t/p/w1280/\"")
+        buildConfigField("String", "TMDB_PROFILE_PICTURE_BASE_URL", "\"https://image.tmdb.org/t/p/h632/\"")
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_17
