@@ -1,16 +1,33 @@
 package io.korostenskyi.chestnut.presentation.screen.details
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.CircularProgressIndicator
-import androidx.compose.material.Divider
-import androidx.compose.material3.*
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.*
+import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.DateRange
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.FavoriteBorder
+import androidx.compose.material.icons.filled.Share
+import androidx.compose.material.icons.filled.Star
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.SmallTopAppBar
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
@@ -19,13 +36,15 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import coil.compose.AsyncImage
+import coil.compose.SubcomposeAsyncImage
 import io.korostenskyi.chestnut.R
 import io.korostenskyi.chestnut.domain.model.MovieDetails
 import io.korostenskyi.chestnut.presentation.composables.ActorCard
 import io.korostenskyi.chestnut.presentation.composables.ExpandableText
 import io.korostenskyi.chestnut.presentation.composables.LoadingView
+import kotlin.math.roundToInt
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DetailsScreen(viewModel: DetailsViewModel) {
     val state = viewModel.detailsStateFlow.collectAsState().value
@@ -34,7 +53,7 @@ fun DetailsScreen(viewModel: DetailsViewModel) {
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
     ) {
-        SmallTopAppBar(
+        TopAppBar(
             title = {
                 if (state is DetailsState.Success) {
                     Text(state.details.info.title)
@@ -79,7 +98,7 @@ fun DetailsView(
     val (movie, credits) = details
     val isInFavorites = viewModel.favoritesFlow.collectAsState().value
     if (movie.backdropPath != null) {
-        AsyncImage(
+        SubcomposeAsyncImage(
             model = movie.backdropPath,
             contentDescription = null,
             contentScale = ContentScale.FillBounds,
@@ -156,11 +175,11 @@ fun DetailsView(
                         tint = MaterialTheme.colorScheme.onBackground
                     )
                     Spacer(modifier = Modifier.size(4.dp))
-                    Text(text = movie.voteAverage.toString())
+                    Text(text = movie.voteAverage.roundToInt().toString())
                 }
             }
         }
-        Divider(color = MaterialTheme.colorScheme.onBackground)
+        HorizontalDivider(color = MaterialTheme.colorScheme.onBackground)
         if (movie.description.isNotBlank()) {
             Column(
                 modifier = Modifier
@@ -176,7 +195,7 @@ fun DetailsView(
                     minimumLines = 3
                 )
             }
-            Divider(color = MaterialTheme.colorScheme.onBackground)
+            HorizontalDivider(color = MaterialTheme.colorScheme.onBackground)
         }
         Column(
             modifier = Modifier
