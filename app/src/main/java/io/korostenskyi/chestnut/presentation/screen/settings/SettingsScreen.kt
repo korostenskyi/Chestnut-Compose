@@ -3,22 +3,22 @@ package io.korostenskyi.chestnut.presentation.screen.settings
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.material3.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import io.korostenskyi.chestnut.R
 import io.korostenskyi.chestnut.domain.model.ApplicationSettings
 import io.korostenskyi.chestnut.presentation.composables.SettingsButton
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SettingsScreen(viewModel: SettingsViewModel = hiltViewModel()) {
+fun SettingsScreen(viewModel: SettingsViewModel) {
     val settings = viewModel.settingsFlow.collectAsState().value
     var openThemeDialog by remember { mutableStateOf(false) }
     var openResetConfirmationDialog by remember { mutableStateOf(false) }
@@ -26,7 +26,7 @@ fun SettingsScreen(viewModel: SettingsViewModel = hiltViewModel()) {
         modifier = Modifier
             .fillMaxSize()
     ) {
-        SmallTopAppBar(
+        TopAppBar(
             title = {
                 Text(text = stringResource(id = R.string.title_settings))
             },

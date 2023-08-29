@@ -8,14 +8,14 @@ on:
 jobs:
   test:
     name: Build
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v2
-      - name: set up JDK 11
-        uses: actions/setup-java@v2
+      - uses: actions/checkout@v3
+      - name: set up JDK 17
+        uses: actions/setup-java@v3
         with:
           distribution: 'zulu'
-          java-version: 11
+          java-version: 17
           cache: 'gradle'
       - name: Create .signing folder
         run: mkdir .signing
@@ -23,16 +23,10 @@ jobs:
         run: echo "$RELEASE_KEYSTORE_FILE" | base64 -d > .signing/release.jks
         env:
           RELEASE_KEYSTORE_FILE: ${{ secrets.RELEASE_KEYSTORE_FILE }}
-      - name: Export debug configuration
-        run: echo "TMBD_KEY=$DEBUG_TMBD_KEY" > config/dev.properties && echo "SENTRY_DNS_URL=$SENTRY_URL" >> config/dev.properties
-        env:
-          DEBUG_TMBD_KEY: ${{ secrets.DEBUG_TMBD_KEY }}
-          SENTRY_URL: ${{ secrets.SENTRY_URL }}
       - name: Export release configuration
-        run: echo "TMBD_KEY=$RELEASE_TMBD_KEY" > config/release.properties && echo "SENTRY_DNS_URL=$SENTRY_URL" >> config/release.properties
+        run: echo "TMBD_KEY=$RELEASE_TMBD_KEY" > config/release.properties
         env:
           RELEASE_TMBD_KEY: ${{ secrets.RELEASE_TMBD_KEY }}
-          SENTRY_URL: ${{ secrets.SENTRY_URL }}
       - name: Export release keystore credentials
         run: echo "keyAlias=$RELEASE_KEY_ALIAS" > .signing/release.properties && echo "storePassword=$RELEASE_STORE_PASSWORD" >> .signing/release.properties && echo "keyPassword=$RELEASE_KEY_PASSWORD" >> .signing/release.properties
         env:
@@ -40,4 +34,9 @@ jobs:
           RELEASE_STORE_PASSWORD:  ${{ secrets.RELEASE_STORE_PASSWORD }}
           RELEASE_KEY_PASSWORD:  ${{ secrets.RELEASE_KEY_PASSWORD }}
       - name: Build
-        run: bash ./gradlew assembleProductionRelease --stacktrace
+        run: bash ./gradlew bundleRelease --stacktrace
+      - name: Upload
+        uses: actions/upload-artifact@3
+        with:
+          name: Build Artifacts
+          path: app/build/outputs/

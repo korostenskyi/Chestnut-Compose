@@ -14,7 +14,7 @@
 - [x] Fetching movies from TMDB API
 - [x] Viewing info about selected movie
 - [x] Adding to favorites
-- [x] 3 themes (light, dark, purple)
+- [x] 2 themes (light, dark)
 
 
 ## Built with 🔨
@@ -35,14 +35,6 @@
 - Data Storage
   - [Room](https://developer.android.com/training/data-storage/room)
   - [Jetpack DataStore](https://developer.android.com/topic/libraries/architecture/datastore)
-- Analytics
-  - [Sentry](https://sentry.io/)
-
-## TODO 🛠
-
-- [ ] Auth
-- [ ] Tests
-- [ ] More ideas here...
 
 ## Screenshots 📱
 

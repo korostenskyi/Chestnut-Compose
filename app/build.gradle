@@ -7,11 +7,12 @@ plugins {
 }
 
 android {
-    compileSdk 31
+    namespace 'io.korostenskyi.chestnut'
+    compileSdk 34
     defaultConfig {
         applicationId "io.korostenskyi.chestnut"
         minSdk 23
-        targetSdk 31
+        targetSdk 34
         versionCode buildCode
         versionName buildName
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -39,22 +40,42 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
-            buildConfigField "Boolean", "ENABLE_SENTRY", "true"
+            def keystorePropertiesFile = rootProject.file('config/release.properties')
+            if (keystorePropertiesFile.exists()) {
+                def keystoreProperties = new Properties()
+                keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+                buildConfigField "String", "TMDB_API_KEY", "\"${keystoreProperties['TMBD_KEY']}\""
+            } else {
+                println 'Could not find release.properties'
+            }
         }
         debug {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            buildConfigField "Boolean", "ENABLE_SENTRY", "false"
             versionNameSuffix "-debug"
+            applicationIdSuffix ".develop"
+            def keystorePropertiesFile = rootProject.file('config/dev.properties')
+            if (keystorePropertiesFile.exists()) {
+                def keystoreProperties = new Properties()
+                keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+                buildConfigField "String", "TMDB_API_KEY", "\"${keystoreProperties['TMBD_KEY']}\""
+            } else {
+                println 'Could not find dev.properties'
+            }
         }
     }
+    defaultConfig {
+        buildConfigField("String", "TMDB_BASE_URL", "\"https://api.themoviedb.org/3/\"")
+        buildConfigField("String", "TMDB_POSTER_BASE_URL", "\"https://image.tmdb.org/t/p/w185_and_h278_bestv2/\"")
+        buildConfigField("String", "TMDB_BACKDROP_BASE_URL", "\"https://image.tmdb.org/t/p/w1280/\"")
+        buildConfigField("String", "TMDB_PROFILE_PICTURE_BASE_URL", "\"https://image.tmdb.org/t/p/h632/\"")
+    }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_11
-        targetCompatibility JavaVersion.VERSION_11
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
     kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_11
-        useIR = true
+        jvmTarget = JavaVersion.VERSION_17
     }
     buildFeatures {
         compose true
@@ -67,37 +88,10 @@ android {
             excludes += '/META-INF/{AL2.0,LGPL2.1}'
         }
     }
-    def buildTypeDimension = "buildType"
-    flavorDimensions buildTypeDimension
-    productFlavors {
-        all {
-            buildConfigField "String", "TMDB_BASE_URL", '"https://api.themoviedb.org/3/"'
-        }
-        production {
-            dimension buildTypeDimension
-            def keystorePropertiesFile = rootProject.file('config/release.properties')
-            if (keystorePropertiesFile.exists()) {
-                def keystoreProperties = new Properties()
-                keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
-                buildConfigField "String", "TMDB_API_KEY", "\"${keystoreProperties['TMBD_KEY']}\""
-                buildConfigField "String", "SENTRY_DNS_URL", "\"${keystoreProperties['SENTRY_DNS_URL']}\""
-            } else {
-                println 'Could not find release.properties'
-            }
-        }
-        develop {
-            dimension buildTypeDimension
-            applicationIdSuffix ".develop"
-            def keystorePropertiesFile = rootProject.file('config/dev.properties')
-            if (keystorePropertiesFile.exists()) {
-                def keystoreProperties = new Properties()
-                keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
-                buildConfigField "String", "TMDB_API_KEY", "\"${keystoreProperties['TMBD_KEY']}\""
-                buildConfigField "String", "SENTRY_DNS_URL", "\"${keystoreProperties['SENTRY_DNS_URL']}\""
-            } else {
-                println 'Could not find dev.properties'
-            }
-        }
+
+    lint {
+        abortOnError false
+        checkReleaseBuilds false
     }
 }
 
@@ -107,34 +101,34 @@ static String trimKeystoreValue(String value) {
 
 dependencies {
     // Android
-    implementation 'androidx.core:core-ktx:1.7.0'
-    implementation 'androidx.appcompat:appcompat:1.4.1'
-    implementation 'com.google.android.material:material:1.5.0'
-    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.4.0'
+    implementation 'androidx.core:core-ktx:1.10.1'
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'com.google.android.material:material:1.9.0'
+    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.6.1'
     implementation 'androidx.datastore:datastore-preferences:1.0.0'
 
     // Compose
     implementation "androidx.compose.ui:ui:$compose_version"
     implementation "androidx.compose.ui:ui-tooling-preview:$compose_version"
     implementation "androidx.compose.material:material:$compose_version"
-    implementation "androidx.compose.material3:material3:1.0.0-alpha03"
-    implementation 'androidx.activity:activity-compose:1.4.0'
-    implementation 'androidx.lifecycle:lifecycle-viewmodel-compose:2.4.0'
-    implementation 'androidx.paging:paging-compose:1.0.0-alpha14'
-    implementation 'androidx.navigation:navigation-compose:2.4.0-rc01'
+    implementation "androidx.compose.material3:material3:1.2.0-alpha05"
+    implementation 'androidx.activity:activity-compose:1.7.2'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-compose:2.6.1'
+    implementation 'androidx.paging:paging-compose:3.2.0'
+    implementation 'androidx.navigation:navigation-compose:2.7.0'
 
     // Accompanist
     implementation 'com.google.accompanist:accompanist-systemuicontroller:0.20.0'
     implementation 'com.google.accompanist:accompanist-swiperefresh:0.20.0'
 
     // Kotlin
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.2'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.1'
     implementation 'org.jetbrains.kotlinx:kotlinx-serialization-json:1.2.2'
 
     // Hilt
-    implementation 'com.google.dagger:hilt-android:2.40'
-    kapt 'com.google.dagger:hilt-compiler:2.40'
-    implementation 'androidx.hilt:hilt-navigation-compose:1.0.0-rc01'
+    implementation 'com.google.dagger:hilt-android:2.45'
+    kapt 'com.google.dagger:hilt-compiler:2.45'
+    implementation 'androidx.hilt:hilt-navigation-compose:1.0.0'
 
     // Retrofit 2
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
@@ -143,21 +137,16 @@ dependencies {
     implementation 'com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:0.8.0'
 
     // Coil
-    implementation 'io.coil-kt:coil-compose:2.0.0-alpha05'
+    implementation 'io.coil-kt:coil-compose:2.4.0'
 
     // Room
-    def room_version = "2.4.1"
+    def room_version = "2.5.2"
     api "androidx.room:room-runtime:$room_version"
     implementation "androidx.room:room-ktx:$room_version"
     kapt "androidx.room:room-compiler:$room_version"
 
-    // Sentry
-    implementation 'io.sentry:sentry-android:5.2.4'
-
     // Test
     testImplementation 'junit:junit:4.13.2'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
-    androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_version"
-    debugImplementation "androidx.compose.ui:ui-tooling:$compose_version"
+    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
 }

@@ -13,8 +13,10 @@ import io.korostenskyi.chestnut.presentation.navigation.NavigationNames
 import io.korostenskyi.chestnut.presentation.navigation.Router
 import io.korostenskyi.chestnut.presentation.utils.IntentUtils
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
 class DetailsViewModel @AssistedInject constructor(
@@ -27,19 +29,15 @@ class DetailsViewModel @AssistedInject constructor(
     private val _detailsStateFlow = MutableStateFlow<DetailsState>(DetailsState.Idle)
     val detailsStateFlow = _detailsStateFlow.asStateFlow()
 
-    private val _favoritesFlow = MutableStateFlow(false)
-    val favoritesFlow = _favoritesFlow.asStateFlow()
+    val favoritesFlow = movieInteractor.favoriteMoviesFlow
+        .map { it.contains(movieId) }
+        .stateIn(viewModelScope, SharingStarted.Lazily, false)
 
     init {
         viewModelScope.launch {
             _detailsStateFlow.emit(DetailsState.Loading)
             val movieInfo = movieInteractor.retrieveMovieInfo(movieId)
             _detailsStateFlow.emit(DetailsState.Success(movieInfo))
-        }
-        viewModelScope.launch {
-            movieInteractor.favoriteMoviesFlow.collect { favorites ->
-                _favoritesFlow.emit(favorites.contains(movieId))
-            }
         }
     }
 
@@ -75,7 +73,7 @@ class DetailsViewModel @AssistedInject constructor(
             movieId: Int
         ): ViewModelProvider.Factory = object : ViewModelProvider.Factory {
             @Suppress("UNCHECKED_CAST")
-            override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+            override fun <T : ViewModel> create(modelClass: Class<T>): T {
                 return assistedFactory.create(movieId) as T
             }
         }
