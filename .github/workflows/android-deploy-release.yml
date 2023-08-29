@@ -36,7 +36,7 @@ jobs:
       - name: Build
         run: bash ./gradlew bundleRelease --stacktrace
       - name: Upload
-        uses: actions/upload-artifact@3
+        uses: actions/upload-artifact@v3
         with:
           name: Build Artifacts
           path: app/build/outputs/
