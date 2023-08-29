@@ -4,14 +4,11 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.slideIn
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
-import androidx.compose.ui.unit.IntOffset
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -69,10 +66,7 @@ class MainActivity : ComponentActivity() {
                             navArgument(NavigationNames.MovieIdArgument) {
                                 type = NavType.IntType
                             }
-                        ),
-                        enterTransition = {
-                            slideIn { IntOffset.Zero }
-                        }
+                        )
                     ) { backStackEntry ->
                         val movieId = backStackEntry.arguments?.getInt(NavigationNames.MovieIdArgument)!!
                         val viewModel = viewModel<DetailsViewModel>(
