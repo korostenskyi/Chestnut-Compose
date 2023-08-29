@@ -3,9 +3,9 @@ package io.korostenskyi.chestnut.presentation.composables
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.IconButton
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -30,7 +30,7 @@ fun ErrorItem(onRetryClick: () -> Unit) {
         IconButton(onClick = { onRetryClick() }) {
             Image(
                 painter = painterResource(id = R.drawable.ic_sync),
-                colorFilter = ColorFilter.tint(MaterialTheme.colors.error),
+                colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.error),
                 contentDescription = null
             )
         }
