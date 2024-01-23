@@ -6,7 +6,6 @@ import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
-import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import io.korostenskyi.chestnut.domain.model.ApplicationSettings
 
 private val LightThemeColors = lightColorScheme(
@@ -73,7 +72,6 @@ fun ChestnutTheme(
     content: @Composable () -> Unit
 ) {
     val context = LocalContext.current
-    val uiController = rememberSystemUiController()
     val colors = when (theme) {
         ApplicationSettings.Theme.SYSTEM -> if (dynamic) {
             if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
@@ -82,10 +80,6 @@ fun ChestnutTheme(
         }
         ApplicationSettings.Theme.DARK -> DarkThemeColors
         ApplicationSettings.Theme.LIGHT -> LightThemeColors
-    }
-    with(uiController) {
-        setStatusBarColor(color = colors.surface)
-        setNavigationBarColor(color = colors.surface)
     }
     MaterialTheme(
         colorScheme = colors,
