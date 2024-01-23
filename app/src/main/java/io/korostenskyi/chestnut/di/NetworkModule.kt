@@ -6,10 +6,10 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import io.korostenskyi.chestnut.BuildConfig
 import io.korostenskyi.chestnut.data.network.MovieNetworkDataSource
 import io.korostenskyi.chestnut.data.network.api.TmdbApi
 import io.korostenskyi.chestnut.data.network.impl.MovieNetworkDataSourceImpl
-import io.korostenskyi.chestnut.domain.model.BuildParams
 import kotlinx.serialization.json.Json
 import okhttp3.Interceptor
 import okhttp3.MediaType.Companion.toMediaType
@@ -33,10 +33,8 @@ interface NetworkModule {
         @Provides
         @Singleton
         @Named(DiNames.LOGGING_INTERCEPTOR)
-        fun provideLoggingInterceptor(
-            params: BuildParams
-        ): Interceptor {
-            val loggingLevel = if (params.isDebug) HttpLoggingInterceptor.Level.BODY
+        fun provideLoggingInterceptor(): Interceptor {
+            val loggingLevel = if (BuildConfig.DEBUG) HttpLoggingInterceptor.Level.BODY
             else HttpLoggingInterceptor.Level.NONE
             return HttpLoggingInterceptor().apply {
                 level = loggingLevel
@@ -64,13 +62,12 @@ interface NetworkModule {
         @Provides
         @Singleton
         fun provideTmdbApi(
-            params: BuildParams,
             okHttpClient: OkHttpClient,
             jsonConfig: Json
         ): TmdbApi {
             val contentType = "application/json".toMediaType()
             return Retrofit.Builder()
-                .baseUrl(params.tmdbBaseUrl)
+                .baseUrl(BuildConfig.TMDB_BASE_URL)
                 .client(okHttpClient)
                 .addConverterFactory(jsonConfig.asConverterFactory(contentType))
                 .build()

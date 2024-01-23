@@ -1,18 +1,21 @@
 package io.korostenskyi.chestnut.presentation.screen.home
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.GridCells
-import androidx.compose.foundation.lazy.LazyVerticalGrid
-import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Settings
-import androidx.compose.material3.*
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.SmallTopAppBar
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -32,10 +35,10 @@ import io.korostenskyi.chestnut.presentation.composables.ErrorItem
 import io.korostenskyi.chestnut.presentation.composables.LoadingItem
 import io.korostenskyi.chestnut.presentation.composables.MovieCard
 
-@OptIn(ExperimentalFoundationApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(viewModel: HomeViewModel = hiltViewModel()) {
-    val listState = rememberLazyListState()
+    val listState = rememberLazyGridState()
     val movies = viewModel.moviesStateFlow.collectAsLazyPagingItems()
     val isRefreshing by viewModel.isRefreshing.collectAsState()
     Column(
@@ -77,7 +80,7 @@ fun HomeScreen(viewModel: HomeViewModel = hiltViewModel()) {
             }
         ) {
             LazyVerticalGrid(
-                cells = GridCells.Adaptive(minSize = 128.dp),
+                columns = GridCells.Adaptive(minSize = 128.dp),
                 state = listState,
                 modifier = Modifier
                     .padding(horizontal = 2.dp)
@@ -100,6 +103,7 @@ fun HomeScreen(viewModel: HomeViewModel = hiltViewModel()) {
                         is LoadState.Error -> {
                             item { ErrorItem(onRetryClick = { retry() }) }
                         }
+                        else -> {}
                     }
                 }
             }

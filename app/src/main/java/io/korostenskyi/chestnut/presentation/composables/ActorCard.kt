@@ -38,11 +38,11 @@ fun ActorCard(
             if (actor.photoPath != null) {
                 AsyncImage(
                     model = actor.photoPath,
-                    loading = {
-                        CircularProgressIndicator(
-                            color = MaterialTheme.colorScheme.primary
-                        )
-                    },
+//                    loading = {
+//                        CircularProgressIndicator(
+//                            color = MaterialTheme.colorScheme.primary
+//                        )
+//                    },
                     contentScale = ContentScale.Crop,
                     contentDescription = null,
                     modifier = Modifier

@@ -17,6 +17,7 @@ import io.korostenskyi.chestnut.R
 import io.korostenskyi.chestnut.domain.model.ApplicationSettings
 import io.korostenskyi.chestnut.presentation.composables.SettingsButton
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SettingsScreen(viewModel: SettingsViewModel = hiltViewModel()) {
     val settings = viewModel.settingsFlow.collectAsState().value

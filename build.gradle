@@ -2,21 +2,20 @@
 buildscript {
     apply from: 'version.gradle'
     ext {
-        compose_version = '1.0.5'
-        kotlin_version = '1.5.31'
+        kotlin_version = '1.9.22'
     }
     repositories {
         google()
         mavenCentral()
     }
     dependencies {
-        classpath "com.android.tools.build:gradle:7.0.4"
+        classpath "com.android.tools.build:gradle:8.2.1"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        classpath 'com.google.dagger:hilt-android-gradle-plugin:2.40'
+        classpath 'com.google.dagger:hilt-android-gradle-plugin:2.50'
         classpath "org.jetbrains.kotlin:kotlin-serialization:$kotlin_version"
     }
 }
 
-task clean(type: Delete) {
+tasks.register('clean', Delete) {
     delete rootProject.buildDir
 }

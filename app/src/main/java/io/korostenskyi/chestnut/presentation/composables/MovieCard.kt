@@ -33,11 +33,11 @@ fun MovieCard(
             model = movie.posterPath,
             contentDescription = null,
             contentScale = ContentScale.FillBounds,
-            loading = {
-                CircularProgressIndicator(
-                    color = MaterialTheme.colorScheme.primary
-                )
-            },
+//            loading = {
+//                CircularProgressIndicator(
+//                    color = MaterialTheme.colorScheme.primary
+//                )
+//            },
             modifier = Modifier
                 .height(180.dp)
                 .fillMaxSize()

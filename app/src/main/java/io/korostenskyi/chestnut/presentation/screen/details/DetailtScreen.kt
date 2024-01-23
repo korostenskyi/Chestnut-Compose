@@ -26,6 +26,7 @@ import io.korostenskyi.chestnut.presentation.composables.ActorCard
 import io.korostenskyi.chestnut.presentation.composables.ExpandableText
 import io.korostenskyi.chestnut.presentation.composables.LoadingView
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DetailsScreen(viewModel: DetailsViewModel) {
     val state = viewModel.detailsStateFlow.collectAsState().value
@@ -83,11 +84,11 @@ fun DetailsView(
             model = movie.backdropPath,
             contentDescription = null,
             contentScale = ContentScale.FillBounds,
-            loading = {
-                CircularProgressIndicator(
-                    color = MaterialTheme.colorScheme.primary
-                )
-            },
+//            loading = {
+//                CircularProgressIndicator(
+//                    color = MaterialTheme.colorScheme.primary
+//                )
+//            },
             modifier = Modifier
                 .fillMaxWidth()
         )
